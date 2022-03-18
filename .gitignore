@@ -1,0 +1,5 @@
+/bazel-bin
+/bazel-ipc-class
+/bazel-out
+/nazel-testlogs
+bazel-testlogs

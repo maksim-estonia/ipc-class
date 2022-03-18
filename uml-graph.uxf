@@ -4,17 +4,17 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1510</x>
-      <y>320</y>
+      <x>1420</x>
+      <y>330</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-ReceiveIPC
+ReceiverIPC
 --
 ...
 --
-...
+/receive()/
 --
 IPC Rx processes
 --&gt; declares the interface
@@ -24,12 +24,12 @@ IPC Rx processes
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>150</y>
+      <x>800</x>
+      <y>160</y>
       <w>220</w>
       <h>210</h>
     </coordinates>
-    <panel_attributes>CreateIPC
+    <panel_attributes>CreatorIPC
 --
 ...
 --
@@ -45,8 +45,8 @@ goes here</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1520</x>
-      <y>730</y>
+      <x>1430</x>
+      <y>740</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
@@ -54,12 +54,12 @@ goes here</panel_attributes>
 --
 ...
 --
-+ transport()
++ receive()
 - setupQueueRx
 - fileSizeRx
 - queueRx
 --
-transport protocol
+receive method
 implemented using queue
 </panel_attributes>
     <additional_attributes/>
@@ -67,8 +67,8 @@ implemented using queue
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1290</x>
-      <y>730</y>
+      <x>1200</x>
+      <y>740</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
@@ -76,20 +76,20 @@ implemented using queue
 --
 ...
 --
-+ transport()
++ receive()
 - setupPipeRx
 - fileSizeRx
 - pipeRx
 --
-transport protocol 
+receive method
 implemented using pipe</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1740</x>
-      <y>730</y>
+      <x>1650</x>
+      <y>740</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
@@ -97,20 +97,20 @@ implemented using pipe</panel_attributes>
 --
 ...
 --
-+ transport()
++ receive()
 - setupShmRx
 - fileSizeRx
 - shmRx
 --
-transport protocol
+receive method
 implemented using shm</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1390</x>
-      <y>510</y>
+      <x>1300</x>
+      <y>520</y>
       <w>190</w>
       <h>240</h>
     </coordinates>
@@ -120,8 +120,8 @@ implemented using shm</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1610</x>
-      <y>510</y>
+      <x>1520</x>
+      <y>520</y>
       <w>40</w>
       <h>240</h>
     </coordinates>
@@ -131,8 +131,8 @@ implemented using shm</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1670</x>
-      <y>510</y>
+      <x>1580</x>
+      <y>520</y>
       <w>200</w>
       <h>240</h>
     </coordinates>
@@ -142,8 +142,8 @@ implemented using shm</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1100</x>
-      <y>250</y>
+      <x>1010</x>
+      <y>260</y>
       <w>430</w>
       <h>200</h>
     </coordinates>
@@ -153,12 +153,12 @@ implemented using shm</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>660</x>
-      <y>430</y>
+      <x>570</x>
+      <y>440</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>CreatePipeTx
+    <panel_attributes>CreatorPipeTx
 --
 ...
 --
@@ -171,12 +171,12 @@ pipe ipc processing (Tx)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>430</y>
+      <x>800</x>
+      <y>440</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>CreateQueueTx
+    <panel_attributes>CreatorQueueTx
 --
 ...
 --
@@ -189,12 +189,12 @@ queue ipc processing (Tx)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
-      <y>430</y>
+      <x>1030</x>
+      <y>440</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>CreateShmTx
+    <panel_attributes>CreatorShmTx
 --
 ...
 --
@@ -207,8 +207,8 @@ shm ipc processing (Tx)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
-      <y>350</y>
+      <x>680</x>
+      <y>360</y>
       <w>140</w>
       <h>100</h>
     </coordinates>
@@ -218,8 +218,8 @@ shm ipc processing (Tx)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
-      <y>350</y>
+      <x>890</x>
+      <y>360</y>
       <w>40</w>
       <h>100</h>
     </coordinates>
@@ -229,8 +229,8 @@ shm ipc processing (Tx)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1100</x>
-      <y>350</y>
+      <x>1010</x>
+      <y>360</y>
       <w>140</w>
       <h>100</h>
     </coordinates>
@@ -240,12 +240,12 @@ shm ipc processing (Tx)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>660</x>
-      <y>550</y>
+      <x>570</x>
+      <y>560</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>CreatePipeRx
+    <panel_attributes>CreatorPipeRx
 --
 ...
 --
@@ -258,12 +258,12 @@ pipe ipc processing (Rx)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>550</y>
+      <x>800</x>
+      <y>560</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>CreateQueueRx
+    <panel_attributes>CreatorQueueRx
 --
 ...
 --
@@ -276,12 +276,12 @@ queue ipc processing (Rx)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
-      <y>550</y>
+      <x>1030</x>
+      <y>560</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>CreateShmRx
+    <panel_attributes>CreatorShmRx
 --
 ...
 --
@@ -294,8 +294,8 @@ shm ipc processing (Rx)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
-      <y>350</y>
+      <x>670</x>
+      <y>360</y>
       <w>170</w>
       <h>220</h>
     </coordinates>
@@ -306,8 +306,8 @@ layer=-10</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>990</x>
-      <y>350</y>
+      <x>900</x>
+      <y>360</y>
       <w>50</w>
       <h>220</h>
     </coordinates>
@@ -318,8 +318,8 @@ layer=-10</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1080</x>
-      <y>350</y>
+      <x>990</x>
+      <y>360</y>
       <w>170</w>
       <h>220</h>
     </coordinates>
@@ -329,13 +329,13 @@ layer=-10</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>330</x>
-      <y>330</y>
+      <x>240</x>
+      <y>340</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-SendIPC
+SenderIPC
 --
 ...
 --
@@ -349,29 +349,29 @@ IPC Tx processes
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>90</x>
-      <y>730</y>
+      <x>0</x>
+      <y>740</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
     <panel_attributes>PipeTx
 --
-...
+pipe pipe_tx
 --
-+ transport()
++ send()
 - setupPipeTx
 - fileSizeTx
 - pipeTx
 --
-transport protocol 
+send method
 implemented using pipe</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>730</y>
+      <x>230</x>
+      <y>740</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
@@ -379,12 +379,12 @@ implemented using pipe</panel_attributes>
 --
 ...
 --
-+ transport()
++ send()
 - setupQueueTx
 - fileSizeTx
 - queueTx
 --
-transport protocol
+send method
 implemented using queue
 </panel_attributes>
     <additional_attributes/>
@@ -392,8 +392,8 @@ implemented using queue
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>550</x>
-      <y>730</y>
+      <x>460</x>
+      <y>740</y>
       <w>210</w>
       <h>200</h>
     </coordinates>
@@ -401,20 +401,20 @@ implemented using queue
 --
 ...
 --
-+ transport()
++ send()
 - setupShmTx
 - fileSizeTx
 - shmTx
 --
-transport protocol
+send method
 implemented using shm</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>180</x>
-      <y>520</y>
+      <x>90</x>
+      <y>530</y>
       <w>210</w>
       <h>230</h>
     </coordinates>
@@ -424,8 +424,8 @@ implemented using shm</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>410</x>
-      <y>520</y>
+      <x>320</x>
+      <y>530</y>
       <w>60</w>
       <h>230</h>
     </coordinates>
@@ -435,8 +435,8 @@ implemented using shm</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>520</y>
+      <x>410</x>
+      <y>530</y>
       <w>170</w>
       <h>230</h>
     </coordinates>
@@ -446,8 +446,8 @@ implemented using shm</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>250</y>
+      <x>440</x>
+      <y>260</y>
       <w>380</w>
       <h>190</h>
     </coordinates>

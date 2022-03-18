@@ -14,6 +14,24 @@ Execute `./environment.sh`
 
 For building we use Bazel
 
+- Run (main)
+
+```
+bazel run src/main:main
+```
+
+- Build (test)
+
+```
+bazel build tests:tests
+```
+
+- Test (test)
+
+```
+bazel test tests:tests
+```
+
 ## Testing
 
 For testing we use the GoogleTest framework
