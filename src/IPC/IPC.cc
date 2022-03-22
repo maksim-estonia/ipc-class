@@ -1,11 +1,5 @@
 #include "IPC.h"
 
-std::string print_test(void) {
-    std::cout << "Import successfull! \n";
-
-    return "Success";
-}
-
 /*
     Concrete Products provide various implementations
     of the Product interface

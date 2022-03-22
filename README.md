@@ -20,6 +20,16 @@ For building we use Bazel
 bazel run src/main:main
 ```
 
+    - Run (receive)
+    ```
+    bazel run src/main:receive_main
+    ```
+
+    - Run (send)
+    ```
+    bazel run src/main:send_main
+    ```
+
 - Build (test)
 
 ```

@@ -1,13 +1,10 @@
 #include <iostream>
 #include <string>
 
-#include "src/lib/Greeting.h"
 #include "src/IPC/IPC.h"
 
 int main()
 {
-    Greeting *greet = new Greeting();
-    std::cout << greet->getGreetingMessage() << std::endl;
 
     std::cout << "App: Launch Pipe Rx" << std::endl;
     CreatorIPC* pipe_rx = new CreatorPipeRx();

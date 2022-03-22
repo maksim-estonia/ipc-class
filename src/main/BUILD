@@ -2,5 +2,11 @@
 cc_binary(
     name = "main",
     srcs = ["main.cc"],
-    deps = ["//src/lib:GreetingLib", "//src/IPC:IpcLib"],
+    deps = ["//src/IPC:IpcLib"],
+)
+
+cc_binary(
+    name = "send_main",
+    srcs = ["send_main.cc"],
+    deps = ["//src/IPC:IpcLib"],
 )

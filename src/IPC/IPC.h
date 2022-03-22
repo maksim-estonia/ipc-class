@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-std::string print_test(void);
-
 /*
     The Product interface declares the operations that all concrete 
     products must implement.
