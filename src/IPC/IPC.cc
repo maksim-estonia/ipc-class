@@ -5,15 +5,6 @@
     of the Product interface
 */
 
-std::string CreatorIPC::SomeOperation(void) const {
-    // Call the factory method to create a Product object.
-    ReceiverIPC* file_transport = this->createIpcRx();
-    // Now, use the product.
-    std::string result = "CreatorIPC: The same creator's code has just worked with " + file_transport->receive();
-    delete file_transport;
-    return result;
-}
-
 std::string CreatorIPC::openWriteFile(void) const {
     std::string result = "CreatorIPC: openWriteFile\n";
     return result;
