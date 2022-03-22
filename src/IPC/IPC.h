@@ -2,6 +2,7 @@
 #define IPC_CLASS_H
 
 #include <iostream>
+#include <fstream>
 
 /*
     The Product interface declares the operations that all concrete 
@@ -101,7 +102,7 @@ class CreatorIPC{
         */
        std::string SomeOperation() const;
        std::string openWriteFile() const;
-       std::string openReadFile() const;
+       std::string openReadFile(char *path) const;
 };
 
 /*
