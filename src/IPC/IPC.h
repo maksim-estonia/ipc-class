@@ -52,7 +52,9 @@ class ShmRx: public ReceiverIPC {
 };
 
 class PipeTx: public SenderIPC {
+    std::fstream *file;
     public:
+        PipeTx(std::fstream *file_in):file{file_in}{}
         std::string send() const override;
     private:
         std::string setupPipeTx() const;
@@ -93,6 +95,7 @@ class CreatorIPC{
         virtual ~CreatorIPC(){};
         virtual ReceiverIPC* createIpcRx() const { return nullptr; };
         virtual SenderIPC* createIpcTx() const { return nullptr; };
+        virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
         /*
         Also note that, despite its name, the Creator's primary responsibility is
         not creating products. Usually, it contains some core business logic that
@@ -102,7 +105,7 @@ class CreatorIPC{
         */
        std::string SomeOperation() const;
        std::string openWriteFile() const;
-       std::string openReadFile(char *path) const;
+       std::fstream openReadFile(char *path) const;
 };
 
 /*
@@ -137,8 +140,8 @@ class CreatorShmRx: public CreatorIPC {
 
 class CreatorPipeTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx() const override {
-            return new PipeTx();
+        SenderIPC* createIpcTx(std::fstream *file_in) const override {
+            return new PipeTx(file_in);
         }
 };
 

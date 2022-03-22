@@ -19,7 +19,7 @@ std::string CreatorIPC::openWriteFile(void) const {
     return result;
 }
 
-std::string CreatorIPC::openReadFile(char *path) const {
+std::fstream CreatorIPC::openReadFile(char *path) const {
     // open file (for reading only)
     std::fstream file;
     file.open(path, std::fstream::in);
@@ -28,10 +28,11 @@ std::string CreatorIPC::openReadFile(char *path) const {
     if (!file.is_open()) {
         // the files hasn't been opened; error
         fprintf(stderr, "read file couldn't be opened\n");
+        std::cerr << "ERROR CreatorIPC: read file couldn't be opened" << std::endl;
     }
 
-    std::string result = "CreatorIPC: openReadFile\n";
-    return result;
+    std::cout << "CreatorIPC: openReadFile\n";
+    return file;
 }
 
 
