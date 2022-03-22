@@ -1,7 +1,7 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string ShmTx::send(void) const {
+std::string ShmTx::send(void) {
     std::string result = this->setupShmTx();
     std::cout << result;
 

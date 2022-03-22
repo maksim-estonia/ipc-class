@@ -4,6 +4,13 @@
 #include <iostream>
 #include <fstream>
 
+// PIPE
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
+#define PIPE_SIZE 1024
+#define FIFO_FILE "/home/maksim/ipc-class/MYFIFO"
+
 /*
     The Product interface declares the operations that all concrete 
     products must implement.
@@ -17,7 +24,7 @@ class ReceiverIPC {
 class SenderIPC {
     public:
         virtual ~SenderIPC() {}
-        virtual std::string send() const = 0;
+        virtual std::string send() = 0;
 };
 
 /*
@@ -53,18 +60,21 @@ class ShmRx: public ReceiverIPC {
 
 class PipeTx: public SenderIPC {
     std::fstream *file;
+    int fd;
+    char readbuf[PIPE_SIZE];
+    int size;
     public:
         PipeTx(std::fstream *file_in):file{file_in}{}
-        std::string send() const override;
+        std::string send() override;
     private:
-        std::string setupPipeTx() const;
-        std::string fileSizeTx() const;
-        std::string pipeTx() const;
+        std::string setupPipeTx();
+        std::string fileSizeTx();
+        std::string pipeTx();
 };
 
 class QueueTx: public SenderIPC {
     public:
-        std::string send() const override;
+        std::string send() override;
     private:
         std::string setupQueueTx() const;
         std::string fileSizeTx() const;
@@ -73,7 +83,7 @@ class QueueTx: public SenderIPC {
 
 class ShmTx: public SenderIPC {
     public:
-        std::string send() const override;
+        std::string send() override;
     private:
         std::string setupShmTx() const;
         std::string fileSizeTx() const;

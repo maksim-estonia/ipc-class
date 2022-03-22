@@ -1,7 +1,7 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string QueueTx::send(void) const {
+std::string QueueTx::send(void) {
     std::string result = this->setupQueueTx();
     std::cout << result;
 
