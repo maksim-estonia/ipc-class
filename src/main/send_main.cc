@@ -15,6 +15,6 @@ int main()
     file = pipe_tx->openReadFile(path);
 
     SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
-    //std::cout << pipe_file_tx->send();
+    std::cout << pipe_file_tx->send();
     //std::cout << std::endl;
 }

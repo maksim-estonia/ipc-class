@@ -11,6 +11,10 @@ std::string PipeTx::send(void) const {
     result = this->pipeTx();
     std::cout << result;
 
+    std::string line;
+    std::getline(*this->file, line);
+    std::cout << line << std::endl;
+
     return "PipeTx: send process end\n";
 }
 
