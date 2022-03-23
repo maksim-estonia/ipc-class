@@ -10,3 +10,9 @@ cc_binary(
     srcs = ["send_main.cc"],
     deps = ["//src/IPC:IpcLib"],
 )
+
+cc_binary(
+    name = "receive_main",
+    srcs = ["receive_main.cc"],
+    deps = ["//src/IPC:IpcLib"],
+)

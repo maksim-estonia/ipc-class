@@ -32,7 +32,9 @@ class SenderIPC {
     of the Product interface
 */
 class PipeRx: public ReceiverIPC {
+    std::fstream *file;
     public:
+        PipeRx(std::fstream *file_in):file{file_in}{}
         std::string receive() const override;
     private:
         std::string setupPipeRx() const;
@@ -104,6 +106,7 @@ class CreatorIPC{
     public:
         virtual ~CreatorIPC(){};
         virtual ReceiverIPC* createIpcRx() const { return nullptr; };
+        virtual ReceiverIPC* createIpcRx(std::fstream *) const { return nullptr; }
         virtual SenderIPC* createIpcTx() const { return nullptr; };
         virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
         /*
@@ -113,7 +116,7 @@ class CreatorIPC{
         indirectly change that business logic by overriding the factory method and
         returning a different type of product from it.
         */
-       std::string openWriteFile() const;
+       std::fstream openWriteFile(char *path) const;
        std::fstream openReadFile(char *path) const;
 };
 
@@ -122,14 +125,9 @@ class CreatorIPC{
     resulting product's type.
 */
 class CreatorPipeRx: public CreatorIPC {
-    /*
-        Note that the signature of the method still uses the abstract product type,
-        even though the concrete product is actually returned from the method.
-        This way the Creator can stay independent of concrete product classes.
-    */
     public:
-        ReceiverIPC* createIpcRx() const override {
-            return new PipeRx();
+        ReceiverIPC* createIpcRx(std::fstream *file_in) const override {
+            return new PipeRx(file_in);
         }
 };
 

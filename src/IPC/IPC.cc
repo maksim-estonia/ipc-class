@@ -5,9 +5,19 @@
     of the Product interface
 */
 
-std::string CreatorIPC::openWriteFile(void) const {
-    std::string result = "CreatorIPC: openWriteFile\n";
-    return result;
+std::fstream CreatorIPC::openWriteFile(char *path) const {
+    // open file (for writing only)
+    std::fstream file;
+    file.open(path, std::fstream::out | std::fstream::trunc);
+
+    // check if the file has been opened successfully
+    if (!file.is_open()) {
+        // the file hasn't been opened; error
+        std::cerr << "ERROR CreatorIPC: write file couldn't be opened" << std::endl;
+    }
+
+    std::cout << "CreatorIPC: openWriteFile\n";
+    return file;
 }
 
 std::fstream CreatorIPC::openReadFile(char *path) const {
@@ -18,7 +28,6 @@ std::fstream CreatorIPC::openReadFile(char *path) const {
     // check if the file has been opened successfully
     if (!file.is_open()) {
         // the files hasn't been opened; error
-        fprintf(stderr, "read file couldn't be opened\n");
         std::cerr << "ERROR CreatorIPC: read file couldn't be opened" << std::endl;
     }
 
