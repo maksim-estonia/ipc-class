@@ -12,6 +12,6 @@ int main()
     std::cout << "App: Launch Pipe Rx" << std::endl;
     CreatorIPC* pipe_rx = new CreatorPipeRx();
     file = pipe_rx->openWriteFile(path);
-    //SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
-    //std::cout << pipe_file_tx->send();
+    ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
+    std::cout << pipe_file_rx->receive();
 }

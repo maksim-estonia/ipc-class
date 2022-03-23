@@ -1,7 +1,7 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string ShmRx::receive(void) const {
+std::string ShmRx::receive(void) {
     std::string result = this->setupShmRx();
     std::cout << result;
 

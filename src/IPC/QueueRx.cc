@@ -1,7 +1,7 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string QueueRx::receive(void) const {
+std::string QueueRx::receive(void) {
     std::string result = this->setupQueueRx();
     std::cout << result;
 

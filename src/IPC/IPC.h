@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #define PIPE_SIZE 1024
 #define FIFO_FILE "/home/maksim/ipc-class/MYFIFO"
 
@@ -18,7 +19,7 @@
 class ReceiverIPC {
     public:
         virtual ~ReceiverIPC() {}
-        virtual std::string receive() const = 0;
+        virtual std::string receive() = 0;
 };
 
 class SenderIPC {
@@ -33,18 +34,22 @@ class SenderIPC {
 */
 class PipeRx: public ReceiverIPC {
     std::fstream *file;
+    int fd;
+    char readbuf[PIPE_SIZE];
+    int read_bytes;
+    int size = 0;
     public:
         PipeRx(std::fstream *file_in):file{file_in}{}
-        std::string receive() const override;
+        std::string receive() override;
     private:
-        std::string setupPipeRx() const;
-        std::string fileSizeRx() const;
-        std::string pipeRx() const;
+        std::string setupPipeRx();
+        std::string fileSizeRx();
+        std::string pipeRx();
 };
 
 class QueueRx: public ReceiverIPC {
     public:
-        std::string receive() const override;
+        std::string receive() override;
     private:
         std::string setupQueueRx() const;
         std::string fileSizeRx() const;
@@ -53,7 +58,7 @@ class QueueRx: public ReceiverIPC {
 
 class ShmRx: public ReceiverIPC {
     public:
-        std::string receive() const override;
+        std::string receive() override;
     private:
         std::string setupShmRx() const;
         std::string fileSizeRx() const;
