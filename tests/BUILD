@@ -4,5 +4,7 @@ cc_test(
     srcs = ["test_main.cc"],
     deps = [
         "@googletest//:gtest_main",
+        "//src/IPC:IpcLib",
     ],
+    data = ["input.txt", "output.txt"],
 )

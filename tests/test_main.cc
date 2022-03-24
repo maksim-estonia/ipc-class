@@ -1,86 +1,79 @@
 #include <gtest/gtest.h>
+#include <thread>
+#include <iostream>
 
-struct BankAccount
+#include <fstream>
+#include <string>
+#include "src/IPC/IPC.h"
+
+void run_pipe_rx(void)
 {
-    int balance = 0;
+    std::cout << "run_pipe_rx" << std::endl;
 
-    BankAccount()
-    {}
+    char path[] = {"output.txt"};
+    std::fstream file;
 
-    BankAccount(const int balance): balance(balance)
-    {}
+    std::cout << "Launch Pipe Rx" << std::endl;
+    CreatorIPC* pipe_rx = new CreatorPipeRx();
+    file = pipe_rx->openWriteFile(path);
+    ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
+    std::cout << pipe_file_rx->receive();
 
-    void deposit(int amount)
-    {
-        balance += amount;
-    }
+    // file.open(path, std::fstream::out | std::fstream::trunc);
 
-    bool withdraw(int amount)
-    {
-        if (amount <= balance)
-        {
-            balance -= amount;
-            return true;
-        }
-        return false;
-    }
-};
+    // // check if the file has been opened successfully
+    // if (!file.is_open()) {
+    //     // the file hasn't been opened; error
+    //     std::cerr << "ERROR CreatorIPC: write file couldn't be opened" << std::endl;
+    // }
 
-struct BankAccountTest: testing::Test
-{
-   BankAccount* account;
-
-   BankAccountTest()
-   {
-     account = new BankAccount;
-   }
-
-   ~BankAccountTest()
-   {
-     delete account;
-   }
-};
-
-struct account_state
-{
-    int initial_balance;
-    int withdraw_amount;
-    int final_balance;
-    bool success;
-};
-
-TEST_F(BankAccountTest, BankAccountStartsEmpty)
-{
-    EXPECT_EQ(0, account->balance);
+    //std::cout << "CreatorIPC: openWriteFile\n";
 }
 
-TEST_F(BankAccountTest, CanDepositMoney)
+void run_pipe_tx(void)
 {
-    account->deposit(100);
-    EXPECT_EQ(100, account->balance);
+    std::cout << "run_pipe_tx" << std::endl;
+
+    char path[] = {"input.txt"};
+    std::fstream file;
+
+    std::cout << "Launch Pipe Tx" << std::endl;
+    CreatorIPC* pipe_tx = new CreatorPipeTx();
+    file = pipe_tx->openReadFile(path);
+    SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
+    std::cout << pipe_file_tx->send();
 }
 
-struct WithdrawAccountTest: BankAccountTest, testing::WithParamInterface<account_state>
+int run_pipe_test(void)
 {
-    WithdrawAccountTest()
-    {
-        account->balance = GetParam().initial_balance;
-    }
-};
+    std::cout << "----------------------Starting run_pipe_test----------------------" << std::endl;
+    std::thread th_rx(run_pipe_rx);
+    //std::thread th_tx(run_pipe_tx);
 
-TEST_P(WithdrawAccountTest, FinalBalance)
-{
-    auto as = GetParam();
-    auto success = account->withdraw(as.withdraw_amount);
-    EXPECT_EQ(as.final_balance, account->balance);
-    EXPECT_EQ(as.success, success);
+    //wait for both threads to finish
+    th_rx.join();
+    //th_tx.join();
+
+    std::cout << "----------------------Ending run_pipe_test----------------------" << std::endl;
+    return 0;
 }
 
-INSTANTIATE_TEST_CASE_P(Default, WithdrawAccountTest,
-    testing::Values(
-        account_state{100,50,50,true},
-        account_state{100,200,100,false}
-    ));
+TEST(IpcTest, Pipe)
+{
+    run_pipe_test();
+
+    EXPECT_EQ(0, 0);
+}
+
+TEST(IpcTest, Queue)
+{
+    EXPECT_EQ(0, 0);
+}
+
+TEST(IpcTest, Shm)
+{
+    EXPECT_EQ(0, 0);
+}
 
 int main (int argc, char* argv[])
 {
