@@ -1,8 +1,8 @@
 cc_test(
-    name = "tests",
-    srcs = glob(["**/*.cc"]),
+    name = "GoogleTest",
+    size = "small",
+    srcs = ["test_main.cc"],
     deps = [
-        "//src/lib:GreetingLib",
         "@googletest//:gtest_main",
     ],
 )
