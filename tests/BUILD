@@ -6,5 +6,5 @@ cc_test(
         "@googletest//:gtest_main",
         "//src/IPC:IpcLib",
     ],
-    data = ["input.txt", "output.txt"],
+    data = ["//data:input.txt", "//data:output.txt"],
 )
