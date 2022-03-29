@@ -49,19 +49,19 @@ For building we use Bazel
 - Run (main)
 
 ```
-bazel run src/main:main
+bazel run //src/main:main
 ```
 
 - Run (receive)
   
 ```
-bazel run src/main:receive_main
+bazel run //src/main:receive_main
 ```
 
 - Run (send)
   
 ```
-bazel run src/main:send_main
+bazel run //src/main:send_main
 ```
 
 ## Testing
@@ -71,11 +71,17 @@ For testing we use the GoogleTest framework
 - Build (test)
 
 ```
-bazel build tests:GoogleTest
+bazel build //tests:GoogleTest
 ```
 
 - Test (test)
 
 ```
-bazel test tests:GoogleTest
+bazel test //tests:GoogleTest
+```
+
+- Run (shows output)
+
+```
+bazel run //tests:GoogleTest
 ```

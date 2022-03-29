@@ -1,15 +1,21 @@
 #include <iostream>
 #include "IPC.h"
 
+#define PRINT 0
+
 std::string PipeTx::send(void) {
     std::string result = this->setupPipeTx();
     std::cout << result;
 
     result = this->fileSizeTx();
+    #if PRINT
     std::cout << result;
+    #endif
 
     result = this->pipeTx();
+    #if PRINT
     std::cout << result;
+    #endif
 
     // close pipe
     close(this->fd);
@@ -21,7 +27,7 @@ std::string PipeTx::send(void) {
 
 std::string PipeTx::setupPipeTx(void) {
     fd = open(FIFO_FILE, O_CREAT|O_WRONLY);
-    return "  PipeTx: setupPipeTx\n";
+    return "PipeTx: setupPipeTx\n";
 }
 
 std::string PipeTx::fileSizeTx(void) {
@@ -36,7 +42,9 @@ std::string PipeTx::fileSizeTx(void) {
     // set position back to begin
     this->file->seekg(0, std::ios::beg);
 
+    #if PRINT
     std::cout << "  FILE SIZE: " << this->size << std::endl;
+    #endif
 
     // send file size
     sprintf(this->readbuf, "%d", this->size);
@@ -55,7 +63,9 @@ std::string PipeTx::pipeTx(void) {
             // EOF reached, send last string
             int remaining_bytes = (this->size) - (sizeof(readbuf)-1)*n;
             readbuf[remaining_bytes] = '\0';
+            #if PRINT
             std::cout << "Last string: " << readbuf << std::endl;
+            #endif
             write(this->fd, this->readbuf, remaining_bytes);
             usleep(100000); // 100ms
             break;
@@ -63,7 +73,9 @@ std::string PipeTx::pipeTx(void) {
 
         // sending full buffer
         this->readbuf[sizeof(this->readbuf)-1] = '\0';
+        #if PRINT
         std::cout << "Read string: " << this->readbuf << std::endl;
+        #endif
         write(this->fd, this->readbuf, sizeof(this->readbuf));
         usleep(100000); // 100ms
         n +=1;

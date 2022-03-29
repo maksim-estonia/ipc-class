@@ -5,6 +5,8 @@
     of the Product interface
 */
 
+#define PRINT 0
+
 std::fstream CreatorIPC::openWriteFile(char *path) const {
     // open file (for writing only)
     std::fstream file;
@@ -16,7 +18,9 @@ std::fstream CreatorIPC::openWriteFile(char *path) const {
         std::cerr << "ERROR CreatorIPC: write file couldn't be opened" << std::endl;
     }
 
+    #if PRINT
     std::cout << "CreatorIPC: openWriteFile\n";
+    #endif
     return file;
 }
 
@@ -31,7 +35,9 @@ std::fstream CreatorIPC::openReadFile(char *path) const {
         std::cerr << "ERROR CreatorIPC: read file couldn't be opened" << std::endl;
     }
 
+    #if PRINT
     std::cout << "CreatorIPC: openReadFile\n";
+    #endif
     return file;
 }
 
