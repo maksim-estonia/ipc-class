@@ -6,6 +6,7 @@
     - [test](#test)
   - [Setup](#setup)
   - [Build & Run](#build--run)
+    - [Run](#run)
   - [Testing](#testing)
 
 # IPC class
@@ -38,7 +39,7 @@ A (factory) class-based implementation for conducting IPC using pipe, queue or s
 
 ## Setup
 
-Execute `./environment.sh`
+Execute `./setup_environment.sh`
 
 ## Build & Run
 
@@ -46,23 +47,35 @@ Execute `./build_and_run.sh`
 
 For building we use Bazel
 
-- Run (main)
-
-```
-bazel run //src/main:main
-```
-
-- Run (receive)
+- Build (receive)
   
 ```
-bazel run //src/main:receive_main
+bazel build //src/main:receive_main
 ```
 
-- Run (send)
+- Build (send)
   
 ```
-bazel run //src/main:send_main
+bazel build //src/main:send_main
 ```
+
+### Run
+
+- pipe
+
+  - start receive side
+
+  ```
+  cd bazel-bin/src/main
+  ./receive_main --pipe --file output.txt
+  ```
+
+  - start send side
+
+  ```
+  cd bazel-bin/src/main
+  ./send_main --pipe --file input.txt
+  ```
 
 ## Testing
 
