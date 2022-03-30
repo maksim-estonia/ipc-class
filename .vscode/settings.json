@@ -56,6 +56,9 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "iomanip": "cpp"
     }
 }

@@ -1,1 +1,1 @@
-exports_files(["input.txt", "output.txt", "pipe_input.txt", "pipe_output.txt"])
+exports_files(["pipe_input.txt", "pipe_output.txt", "queue_input.txt", "queue_output.txt", "shm_input.txt", "shm_output.txt"])

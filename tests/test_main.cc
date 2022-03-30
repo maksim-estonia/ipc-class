@@ -31,7 +31,11 @@ void run_pipe_rx(void)
     file = pipe_rx->openWriteFile(path);
 
     ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
+    #if PRINT_PIPE
     std::cout << pipe_file_rx->receive();
+    #else
+    pipe_file_rx->receive();
+    #endif
 }
 
 void run_pipe_tx(void)
@@ -46,11 +50,16 @@ void run_pipe_tx(void)
     #if PRINT_PIPE
     std::cout << "Launch Pipe Tx" << std::endl;
     #endif  
+    
     CreatorIPC* pipe_tx = new CreatorPipeTx();
     file = pipe_tx->openReadFile(path);
-
+    
     SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
+    #if PRINT_PIPE
     std::cout << pipe_file_tx->send();
+    #else
+    pipe_file_tx->send();
+    #endif
 }
 
 int run_pipe_test(void)
@@ -92,8 +101,8 @@ TEST(IpcTest, Queue)
     //run_queue_test();
 
     // compare input.txt and output.txt
-    std::string input_path{"data/input.txt"};
-    std::string output_path{"data/output.txt"};
+    std::string input_path{"data/queue_input.txt"};
+    std::string output_path{"data/queue_output.txt"};
     bool files_equal;
 
     files_equal = compare_files(input_path, output_path);
@@ -107,8 +116,8 @@ TEST(IpcTest, Shm)
     //run_shm_test();
 
     // compare input.txt and output.txt
-    std::string input_path{"data/input.txt"};
-    std::string output_path{"data/output.txt"};
+    std::string input_path{"data/shm_input.txt"};
+    std::string output_path{"data/shm_output.txt"};
     bool files_equal;
 
     files_equal = compare_files(input_path, output_path);

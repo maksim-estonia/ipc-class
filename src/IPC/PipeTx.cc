@@ -5,7 +5,9 @@
 
 std::string PipeTx::send(void) {
     std::string result = this->setupPipeTx();
+    #if PRINT
     std::cout << result;
+    #endif
 
     result = this->fileSizeTx();
     #if PRINT
