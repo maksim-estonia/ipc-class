@@ -15,13 +15,19 @@ static struct option long_options[] =
     {0, 0, 0, 0}
 };
 
-typedef enum
+enum class Transport_type
 {
     DEFAULT,
     QUEUE,
     PIPE,
     SHM
-} Transport_type;
+};
+
+enum class Direction
+{
+    READ,
+    WRITE
+};
 
 // structure to store the arguments for a given command
 typedef struct
@@ -30,12 +36,6 @@ typedef struct
     char            *read_path;
     char            *write_path;
 } Arguments;
-
-typedef enum
-{
-    READ,
-    WRITE
-} Direction;
 
 // function to process command line options
 int commandLineProcessing(Arguments *, Direction, int, char * []);
