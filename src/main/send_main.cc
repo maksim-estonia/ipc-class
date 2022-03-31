@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     //int c;
     Arguments arg;
 
-    commandLineProcessing(&arg, READ, argc, argv);
+    commandLineProcessing(&arg, Direction::READ, argc, argv);
 
     if (!arg.read_path) {
         std::cerr << "ERROR: no file path provided" << std::endl;
@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     }
 
     switch (arg.tr_type) {
-        case PIPE: {
+        case Transport_type::PIPE: {
             std::fstream file;
             std::cout << "Launch Pipe Tx" << std::endl;
             CreatorIPC* pipe_tx = new CreatorPipeTx();
@@ -28,11 +28,11 @@ int main(int argc, char* argv[])
             std::cout << pipe_file_tx->send();
             break;
         }
-        case QUEUE: {
+        case Transport_type::QUEUE: {
             std::cerr << "ERROR: not implemented" << std::endl;
             break;
         }
-        case SHM: {
+        case Transport_type::SHM: {
             std::cerr << "ERROR: not implemented" << std::endl;
             break;
         }

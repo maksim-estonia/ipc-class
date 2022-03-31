@@ -4,7 +4,7 @@ int commandLineProcessing(Arguments *arg, Direction dir, int argc, char * argv[]
     int c;
 
     /* Default arguments values */
-    arg->tr_type = DEFAULT;
+    arg->tr_type = Transport_type::DEFAULT;
     arg->read_path = NULL;
     arg->write_path = NULL;
 
@@ -25,21 +25,21 @@ int commandLineProcessing(Arguments *arg, Direction dir, int argc, char * argv[]
         
         switch (c) {
             case 'q':
-                arg->tr_type = QUEUE;
+                arg->tr_type = Transport_type::QUEUE;
                 break;
             case 'p':
-                arg->tr_type = PIPE;
+                arg->tr_type = Transport_type::PIPE;
                 break;
             case 's':
-                arg->tr_type = SHM;
+                arg->tr_type = Transport_type::SHM;
                 break;
             case 'f':
                 switch (dir)
                 {
-                case READ:
+                case Direction::READ:
                     arg->read_path = optarg;
                     break;
-                case WRITE:
+                case Direction::WRITE:
                     arg->write_path = optarg;
                     break;
                 default:
