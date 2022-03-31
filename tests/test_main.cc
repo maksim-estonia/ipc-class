@@ -11,27 +11,25 @@
 #include <string>
 #include <algorithm>
 
-#define PRINT_PIPE 0
-
 bool compare_files(const std::string&, const std::string&);
 
 void run_pipe_rx(void)
 {
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << "run_pipe_rx" << std::endl;
     #endif
 
     char path[] = {"data/pipe_output.txt"};
     std::fstream file;
 
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << "Launch Pipe Rx" << std::endl;
     #endif
     CreatorIPC* pipe_rx = new CreatorPipeRx();
     file = pipe_rx->openWriteFile(path);
 
     ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << pipe_file_rx->receive();
     #else
     pipe_file_rx->receive();
@@ -40,14 +38,14 @@ void run_pipe_rx(void)
 
 void run_pipe_tx(void)
 {
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << "run_pipe_tx" << std::endl;
     #endif
 
     char path[] = {"data/pipe_input.txt"};
     std::fstream file;
 
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << "Launch Pipe Tx" << std::endl;
     #endif  
     
@@ -55,7 +53,7 @@ void run_pipe_tx(void)
     file = pipe_tx->openReadFile(path);
     
     SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << pipe_file_tx->send();
     #else
     pipe_file_tx->send();
@@ -64,7 +62,7 @@ void run_pipe_tx(void)
 
 int run_pipe_test(void)
 {
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << "----------------------Starting run_pipe_test----------------------" << std::endl;
     #endif
     std::thread th_rx(run_pipe_rx);
@@ -74,7 +72,7 @@ int run_pipe_test(void)
     th_rx.join();
     th_tx.join();
 
-    #if PRINT_PIPE
+    #if PRINT
     std::cout << "----------------------Ending run_pipe_test----------------------" << std::endl;
     #endif
     return 0;

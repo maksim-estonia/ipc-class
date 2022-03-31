@@ -59,6 +59,12 @@ bazel build //src/main:receive_main
 bazel build //src/main:send_main
 ```
 
+There is also an option to build with `PRINT` (prints out more information)
+
+`bazel build --copt="-D PRINT" //src/main:receive_main`
+
+`bazel build --copt="-D PRINT" //src/main:send_main`
+
 ### Run
 
 - pipe

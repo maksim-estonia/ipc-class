@@ -5,8 +5,6 @@
     of the Product interface
 */
 
-#define PRINT 0
-
 std::fstream CreatorIPC::openWriteFile(const char *path) const {
     // open file (for writing only)
     std::fstream file;

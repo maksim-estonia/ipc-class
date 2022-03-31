@@ -1,8 +1,6 @@
 #include <iostream>
 #include "IPC.h"
 
-#define PRINT 0
-
 std::string PipeRx::receive(void) {
     std::string result = this->setupPipeRx();
     #if PRINT

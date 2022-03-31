@@ -1,8 +1,6 @@
 #include <iostream>
 #include "IPC.h"
 
-#define PRINT 0
-
 std::string PipeTx::send(void) {
     std::string result = this->setupPipeTx();
     #if PRINT
