@@ -125,12 +125,6 @@ TEST(IpcTest, Shm)
     EXPECT_TRUE(files_equal);
 }
 
-int main (int argc, char* argv[])
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
-
 bool compare_files(const std::string& p1, const std::string& p2)
 {
     std::ifstream f1(p1, std::ifstream::binary|std::ifstream::ate);

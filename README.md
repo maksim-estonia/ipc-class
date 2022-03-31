@@ -43,7 +43,7 @@ Execute `./setup_environment.sh`
 
 ## Build & Run
 
-Execute `./build_and_run.sh`
+Execute `./build_and_run_tests.sh`
 
 For building we use Bazel
 
