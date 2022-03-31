@@ -2,6 +2,7 @@
 #define IPC_COMMON_H
 
 #include <getopt.h>
+#include <iostream>
 
 /* command line options (for getopt long) */
 static struct option long_options[] = 
@@ -29,5 +30,14 @@ typedef struct
     char            *read_path;
     char            *write_path;
 } Arguments;
+
+typedef enum
+{
+    READ,
+    WRITE
+} Direction;
+
+// function to process command line options
+int commandLineProcessing(Arguments *, Direction, int, char * []);
 
 #endif 
