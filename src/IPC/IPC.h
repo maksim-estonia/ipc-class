@@ -121,8 +121,8 @@ class CreatorIPC{
         indirectly change that business logic by overriding the factory method and
         returning a different type of product from it.
         */
-       std::fstream openWriteFile(char *path) const;
-       std::fstream openReadFile(char *path) const;
+       std::fstream openWriteFile(const char *path) const;
+       std::fstream openReadFile(const char *path) const;
 };
 
 /*

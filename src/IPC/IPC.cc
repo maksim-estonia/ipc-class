@@ -7,7 +7,7 @@
 
 #define PRINT 0
 
-std::fstream CreatorIPC::openWriteFile(char *path) const {
+std::fstream CreatorIPC::openWriteFile(const char *path) const {
     // open file (for writing only)
     std::fstream file;
     file.open(path, std::fstream::out | std::fstream::trunc);
@@ -24,7 +24,7 @@ std::fstream CreatorIPC::openWriteFile(char *path) const {
     return file;
 }
 
-std::fstream CreatorIPC::openReadFile(char *path) const {
+std::fstream CreatorIPC::openReadFile(const char *path) const {
     // open file (for reading only)
     std::fstream file;
     file.open(path, std::fstream::in);
