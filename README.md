@@ -61,9 +61,9 @@ bazel build //src/main:send_main
 
 There is also an option to build with `PRINT` (prints out more information)
 
-`bazel build --copt="-D PRINT" //src/main:receive_main`
+`bazel build --cxxopt='-std=c++14' --copt="-D PRINT" //src/main:receive_main`
 
-`bazel build --copt="-D PRINT" //src/main:send_main`
+`bazel build --cxxopt='-std=c++14' --copt="-D PRINT" //src/main:send_main`
 
 ### Run
 
@@ -90,17 +90,17 @@ For testing we use the GoogleTest framework
 - Build (test)
 
 ```
-bazel build //tests:GoogleTest
+bazel build --cxxopt='-std=c++14' //tests:GoogleTest
 ```
 
 - Test (test)
 
 ```
-bazel test //tests:GoogleTest
+bazel test --cxxopt='-std=c++14' //tests:GoogleTest
 ```
 
 - Run (shows output)
 
 ```
-bazel run //tests:GoogleTest
+bazel run --cxxopt='-std=c++14' //tests:GoogleTest
 ```

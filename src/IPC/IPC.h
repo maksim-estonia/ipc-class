@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 // PIPE
 #include <fcntl.h>
@@ -110,10 +111,14 @@ class CreatorIPC{
     */
     public:
         virtual ~CreatorIPC(){};
-        virtual ReceiverIPC* createIpcRx() const { return nullptr; };
-        virtual ReceiverIPC* createIpcRx(std::fstream *) const { return nullptr; }
-        virtual SenderIPC* createIpcTx() const { return nullptr; };
-        virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
+        // virtual ReceiverIPC* createIpcRx() const { return nullptr; };
+        // virtual ReceiverIPC* createIpcRx(std::fstream *) const { return nullptr; }
+        // virtual SenderIPC* createIpcTx() const { return nullptr; };
+        // virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
+        virtual std::unique_ptr<ReceiverIPC> createIpcRx() const { return nullptr; };
+        virtual std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *) const { return nullptr; };
+        virtual std::unique_ptr<SenderIPC> createIpcTx() const { return nullptr; };
+        virtual std::unique_ptr<SenderIPC> createIpcTx(std::fstream *) const { return nullptr; };
         /*
         Also note that, despite its name, the Creator's primary responsibility is
         not creating products. Usually, it contains some core business logic that
@@ -131,43 +136,44 @@ class CreatorIPC{
 */
 class CreatorPipeRx: public CreatorIPC {
     public:
-        ReceiverIPC* createIpcRx(std::fstream *file_in) const override {
-            return new PipeRx(file_in);
+        std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *file_in) const override {
+            //return PipeRx(file_in);
+            return std::make_unique<PipeRx>(file_in);
         }
 };
 
 class CreatorQueueRx: public CreatorIPC {
     public:
-        ReceiverIPC* createIpcRx() const override {
-            return new QueueRx();
+        std::unique_ptr<ReceiverIPC> createIpcRx() const override {
+            return std::make_unique<QueueRx>();
         }
 };
 
 class CreatorShmRx: public CreatorIPC {
     public:
-        ReceiverIPC* createIpcRx() const override {
-            return new ShmRx();
+        std::unique_ptr<ReceiverIPC> createIpcRx() const override {
+            return std::make_unique<ShmRx>();
         }
 };
 
 class CreatorPipeTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx(std::fstream *file_in) const override {
-            return new PipeTx(file_in);
+        std::unique_ptr<SenderIPC> createIpcTx(std::fstream *file_in) const override {
+            return std::make_unique<PipeTx>(file_in);
         }
 };
 
 class CreatorQueueTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx() const override {
-            return new QueueTx();
+        std::unique_ptr<SenderIPC> createIpcTx() const override {
+            return std::make_unique<QueueTx>();
         }
 };
 
 class CreatorShmTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx() const override {
-            return new ShmTx();
+        std::unique_ptr<SenderIPC> createIpcTx() const override {
+            return std::make_unique<ShmTx>();
         }
 };
 

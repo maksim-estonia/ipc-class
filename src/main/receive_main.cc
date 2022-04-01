@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <memory>
 
 #include "src/IPC/IPC.h"
 
@@ -22,9 +23,11 @@ int main(int argc, char* argv[])
         case Transport_type::PIPE: {
             std::fstream file;
             std::cout << "Launch Pipe Rx" << std::endl;
-            CreatorIPC* pipe_rx = new CreatorPipeRx();
+            //CreatorIPC* pipe_rx = new CreatorPipeRx();
+            auto pipe_rx = std::make_unique<CreatorPipeRx>();
             file = pipe_rx->openWriteFile(arg.write_path);
-            ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
+            //ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
+            std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
             std::cout << pipe_file_rx->receive();
             break;
         }
