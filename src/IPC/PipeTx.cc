@@ -22,11 +22,20 @@ std::string PipeTx::send(void) {
     //close file
     this->file->close();
 
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif 
+
     return "PipeTx: send process end\n";
 }
 
 std::string PipeTx::setupPipeTx(void) {
     fd = open(FIFO_FILE, O_CREAT|O_WRONLY);
+
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif
+
     return "PipeTx: setupPipeTx\n";
 }
 
@@ -50,6 +59,10 @@ std::string PipeTx::fileSizeTx(void) {
     sprintf(this->readbuf, "%d", this->size);
     write(this->fd, this->readbuf, strlen(this->readbuf));
     usleep(100000); // 100ms
+
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif
 
     return "  PipeTx: fileSizeTx\n";
 }
@@ -80,6 +93,10 @@ std::string PipeTx::pipeTx(void) {
         usleep(100000); // 100ms
         n +=1;
     }
+
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif
 
     return "  PipeTx: pipeTx\n";
 }
