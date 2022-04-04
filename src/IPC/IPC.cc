@@ -17,7 +17,7 @@ std::fstream CreatorIPC::openWriteFile(const char *path) const {
     }
 
     #if PRINT
-    std::cout << "CreatorIPC: openWriteFile\n";
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
     return file;
 }
@@ -34,7 +34,7 @@ std::fstream CreatorIPC::openReadFile(const char *path) const {
     }
 
     #if PRINT
-    std::cout << "CreatorIPC: openReadFile\n";
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
     return file;
 }

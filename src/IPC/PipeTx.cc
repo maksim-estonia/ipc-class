@@ -1,21 +1,12 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string PipeTx::send(void) {
-    std::string result = this->setupPipeTx();
-    #if PRINT
-    std::cout << result;
-    #endif
+void PipeTx::send(void) {
+    this->setupPipeTx();
 
-    result = this->fileSizeTx();
-    #if PRINT
-    std::cout << result;
-    #endif
+    this->fileSizeTx();
 
-    result = this->pipeTx();
-    #if PRINT
-    std::cout << result;
-    #endif
+    this->pipeTx();
 
     // close pipe
     close(this->fd);
@@ -25,21 +16,17 @@ std::string PipeTx::send(void) {
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif 
-
-    return "PipeTx: send process end\n";
 }
 
-std::string PipeTx::setupPipeTx(void) {
+void PipeTx::setupPipeTx(void) {
     fd = open(FIFO_FILE, O_CREAT|O_WRONLY);
 
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "PipeTx: setupPipeTx\n";
 }
 
-std::string PipeTx::fileSizeTx(void) {
+void PipeTx::fileSizeTx(void) {
     // find file size
     // set position to begin of file
     this->file->seekg(0, std::ios::beg);
@@ -63,11 +50,9 @@ std::string PipeTx::fileSizeTx(void) {
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "  PipeTx: fileSizeTx\n";
 }
 
-std::string PipeTx::pipeTx(void) {
+void PipeTx::pipeTx(void) {
     int n = 0;
     while (1) {
         this->file->read(this->readbuf, sizeof(this->readbuf)-1);
@@ -97,6 +82,4 @@ std::string PipeTx::pipeTx(void) {
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "  PipeTx: pipeTx\n";
 }

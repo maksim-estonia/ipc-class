@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
             file = pipe_rx->openWriteFile(arg.write_path);
             //ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
             std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
-            std::cout << pipe_file_rx->receive();
+            pipe_file_rx->receive();
             break;
         }
         case Transport_type::QUEUE:

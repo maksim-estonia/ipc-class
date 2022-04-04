@@ -20,13 +20,13 @@
 class ReceiverIPC {
     public:
         virtual ~ReceiverIPC() {}
-        virtual std::string receive() = 0;
+        virtual void receive() = 0;
 };
 
 class SenderIPC {
     public:
         virtual ~SenderIPC() {}
-        virtual std::string send() = 0;
+        virtual void send() = 0;
 };
 
 /*
@@ -41,29 +41,29 @@ class PipeRx: public ReceiverIPC {
     int size = 0;
     public:
         PipeRx(std::fstream *file_in):file{file_in}{}
-        std::string receive() override;
+        void receive() override;
     private:
-        std::string setupPipeRx();
-        std::string fileSizeRx();
-        std::string pipeRx();
+        void setupPipeRx();
+        void fileSizeRx();
+        void pipeRx();
 };
 
 class QueueRx: public ReceiverIPC {
     public:
-        std::string receive() override;
+        void receive() override;
     private:
-        std::string setupQueueRx() const;
-        std::string fileSizeRx() const;
-        std::string queueRx() const;
+        void setupQueueRx() const;
+        void fileSizeRx() const;
+        void queueRx() const;
 };
 
 class ShmRx: public ReceiverIPC {
     public:
-        std::string receive() override;
+        void receive() override;
     private:
-        std::string setupShmRx() const;
-        std::string fileSizeRx() const;
-        std::string shmRx() const;
+        void setupShmRx() const;
+        void fileSizeRx() const;
+        void shmRx() const;
 };
 
 class PipeTx: public SenderIPC {
@@ -73,29 +73,29 @@ class PipeTx: public SenderIPC {
     int size;
     public:
         PipeTx(std::fstream *file_in):file{file_in}{}
-        std::string send() override;
+        void send() override;
     private:
-        std::string setupPipeTx();
-        std::string fileSizeTx();
-        std::string pipeTx();
+        void setupPipeTx();
+        void fileSizeTx();
+        void pipeTx();
 };
 
 class QueueTx: public SenderIPC {
     public:
-        std::string send() override;
+        void send() override;
     private:
-        std::string setupQueueTx() const;
-        std::string fileSizeTx() const;
-        std::string queueTx() const;
+        void setupQueueTx() const;
+        void fileSizeTx() const;
+        void queueTx() const;
 };
 
 class ShmTx: public SenderIPC {
     public:
-        std::string send() override;
+        void send() override;
     private:
-        std::string setupShmTx() const;
-        std::string fileSizeTx() const;
-        std::string shmTx() const;
+        void setupShmTx() const;
+        void fileSizeTx() const;
+        void shmTx() const;
 };
 
 

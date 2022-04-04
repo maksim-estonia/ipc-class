@@ -1,27 +1,22 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string QueueRx::receive(void) {
-    std::string result = this->setupQueueRx();
-    std::cout << result;
+void QueueRx::receive(void) {
+    this->setupQueueRx();
 
-    result = this->fileSizeRx();
-    std::cout << result;
+    this->fileSizeRx();
 
-    result = this->queueRx();
-    std::cout << result;
-
-    return "QueueRx: receive process end\n";
+    this->queueRx();
 }
 
-std::string QueueRx::setupQueueRx(void) const {
-    return "  QueueRx: setupPipeRx\n";
+void QueueRx::setupQueueRx(void) const {
+    ;
 }
 
-std::string QueueRx::fileSizeRx(void) const {
-    return "  QueueRx: fileSizeRx\n";
+void QueueRx::fileSizeRx(void) const {
+    ;
 }
 
-std::string QueueRx::queueRx(void) const {
-    return "  QueueRx: queueRx\n";
+void QueueRx::queueRx(void) const {
+    ;
 }

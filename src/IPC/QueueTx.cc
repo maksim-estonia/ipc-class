@@ -1,27 +1,22 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string QueueTx::send(void) {
-    std::string result = this->setupQueueTx();
-    std::cout << result;
+void QueueTx::send(void) {
+    this->setupQueueTx();
 
-    result = this->fileSizeTx();
-    std::cout << result;
+    this->fileSizeTx();
 
-    result = this->queueTx();
-    std::cout << result;
-
-    return "QueueTx: send process end\n";
+    this->queueTx();
 }
 
-std::string QueueTx::setupQueueTx(void) const {
-    return "  QueueTx: setupQueueTx\n";
+void QueueTx::setupQueueTx(void) const {
+    ;
 }
 
-std::string QueueTx::fileSizeTx(void) const {
-    return "  PipeTx: fileSizeTx\n";
+void QueueTx::fileSizeTx(void) const {
+    ;
 }
 
-std::string QueueTx::queueTx(void) const {
-    return "  QueueTx: queueTx\n";
+void QueueTx::queueTx(void) const {
+    ;
 }

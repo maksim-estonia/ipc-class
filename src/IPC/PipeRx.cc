@@ -1,21 +1,12 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string PipeRx::receive(void) {
-    std::string result = this->setupPipeRx();
-    #if PRINT
-    std::cout << result;
-    #endif
+void PipeRx::receive(void) {
+    this->setupPipeRx();
 
-    result = this->fileSizeRx();
-    #if PRINT
-    std::cout << result;
-    #endif
+    this->fileSizeRx();
 
-    result = this->pipeRx();
-    #if PRINT
-    std::cout << result;
-    #endif
+    this->pipeRx();
 
     // close pipe
     close(fd);
@@ -25,11 +16,9 @@ std::string PipeRx::receive(void) {
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "PipeRx: receive process end\n";
 }
 
-std::string PipeRx::setupPipeRx(void) {
+void PipeRx::setupPipeRx(void) {
     // create a FIFO/named pipe
     mknod(FIFO_FILE, S_IFIFO|0640, 0);
 
@@ -39,11 +28,9 @@ std::string PipeRx::setupPipeRx(void) {
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "  PipeRx: setupPipeRx\n";
 }
 
-std::string PipeRx::fileSizeRx(void) {
+void PipeRx::fileSizeRx(void) {
     // read data, first data is the length of the text file
     while (size == 0) {
         read_bytes = read(fd, readbuf, PIPE_SIZE);
@@ -54,11 +41,9 @@ std::string PipeRx::fileSizeRx(void) {
     std::cout << "FILE SIZE: " << size << std::endl;
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "  PipeRx: fileSizeRx\n";
 }
 
-std::string PipeRx::pipeRx(void) {
+void PipeRx::pipeRx(void) {
     int total_read_bytes = 0;
     
     while (1) {
@@ -87,6 +72,4 @@ std::string PipeRx::pipeRx(void) {
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
-
-    return "  PipeRx: pipeRx\n";
 }

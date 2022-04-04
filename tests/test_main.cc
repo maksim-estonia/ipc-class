@@ -31,11 +31,7 @@ void run_pipe_rx(void)
 
     //ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
     std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
-    #if PRINT
-    std::cout << pipe_file_rx->receive();
-    #else
     pipe_file_rx->receive();
-    #endif
 }
 
 void run_pipe_tx(void)
@@ -57,11 +53,7 @@ void run_pipe_tx(void)
     
     // SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
     std::unique_ptr<SenderIPC> pipe_file_tx = std::move(pipe_tx->createIpcTx(&file));
-    #if PRINT
-    std::cout << pipe_file_tx->send();
-    #else
     pipe_file_tx->send();
-    #endif
 }
 
 int run_pipe_test(void)
