@@ -13,7 +13,9 @@ std::fstream CreatorIPC::openWriteFile(const char *path) const {
     // check if the file has been opened successfully
     if (!file.is_open()) {
         // the file hasn't been opened; error
-        std::cerr << "ERROR CreatorIPC: write file couldn't be opened" << std::endl;
+        // std::cerr << "ERROR CreatorIPC: write file couldn't be opened" << std::endl;
+        throw std::runtime_error("Write file couldn't be opened");
+
     }
 
     #if PRINT
@@ -30,7 +32,8 @@ std::fstream CreatorIPC::openReadFile(const char *path) const {
     // check if the file has been opened successfully
     if (!file.is_open()) {
         // the files hasn't been opened; error
-        std::cerr << "ERROR CreatorIPC: read file couldn't be opened" << std::endl;
+        // std::cerr << "ERROR CreatorIPC: read file couldn't be opened" << std::endl;
+        throw std::runtime_error("Read file couldn't be opened");
     }
 
     #if PRINT

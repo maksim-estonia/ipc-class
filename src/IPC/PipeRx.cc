@@ -25,6 +25,10 @@ void PipeRx::setupPipeRx(void) {
     // open pipe
     fd = open(FIFO_FILE, O_RDONLY);
 
+    if (fd == -1) {
+        throw std::runtime_error("Pipe-Rx couldn't be opened");
+    }
+
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
@@ -48,10 +52,13 @@ void PipeRx::pipeRx(void) {
     
     while (1) {
         read_bytes = read(fd, readbuf, PIPE_SIZE-1);
-        if (read_bytes <= 1) {
-            // skip empty read
-            continue;
+        if (read_bytes == -1) {
+            throw std::runtime_error("Pipe-Rx read failed");
         }
+        // if (read_bytes <= 1) {
+            //skip empty read
+            // continue;
+        // }
         total_read_bytes += read_bytes;
         readbuf[read_bytes] = '\0';
 

@@ -22,12 +22,18 @@ int main(int argc, char* argv[])
         case Transport_type::PIPE: {
             std::fstream file;
             std::cout << "Launch Pipe Tx" << std::endl;
-            //CreatorIPC* pipe_tx = new CreatorPipeTx();
-            auto pipe_tx = std::make_unique<CreatorPipeTx>();
-            file = pipe_tx->openReadFile(arg.read_path);
-            //SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
-            std::unique_ptr<SenderIPC> pipe_file_tx = std::move(pipe_tx->createIpcTx(&file));
-            pipe_file_tx->send();
+
+            try {
+                auto pipe_tx = std::make_unique<CreatorPipeTx>();
+                file = pipe_tx->openReadFile(arg.read_path);
+            
+                std::unique_ptr<SenderIPC> pipe_file_tx = std::move(pipe_tx->createIpcTx(&file));
+                pipe_file_tx->send();
+            } catch (const char* msg) {
+                std::cerr << msg << std::endl;
+                return -1;
+            }
+            
             break;
         }
         case Transport_type::QUEUE: {

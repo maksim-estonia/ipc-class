@@ -23,20 +23,27 @@ int main(int argc, char* argv[])
         case Transport_type::PIPE: {
             std::fstream file;
             std::cout << "Launch Pipe Rx" << std::endl;
-            //CreatorIPC* pipe_rx = new CreatorPipeRx();
-            auto pipe_rx = std::make_unique<CreatorPipeRx>();
-            file = pipe_rx->openWriteFile(arg.write_path);
-            //ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
-            std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
-            pipe_file_rx->receive();
+
+            try {
+                auto pipe_rx = std::make_unique<CreatorPipeRx>();
+                file = pipe_rx->openWriteFile(arg.write_path);
+
+                std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
+                pipe_file_rx->receive();
+
+            } catch (const char* msg) {
+                std::cerr << msg << std::endl;
+                return -1;
+            }
+
             break;
         }
         case Transport_type::QUEUE:
             std::cerr << "ERROR: not implemented" << std::endl;
-            break;
+            return -1;
         case Transport_type::SHM:
             std::cerr << "ERROR: not implemented" << std::endl;
-            break;
+            return -1;
         default:
             std::cerr << "ERROR: no ipc message type selected" << std::endl;
             return -1;

@@ -25,13 +25,17 @@ void run_pipe_rx(void)
     #if PRINT
     std::cout << "Launch Pipe Rx" << std::endl;
     #endif
-    //CreatorIPC* pipe_rx = new CreatorPipeRx();
-    auto pipe_rx = std::make_unique<CreatorPipeRx>();
-    file = pipe_rx->openWriteFile(path);
 
-    //ReceiverIPC* pipe_file_rx = pipe_rx->createIpcRx(&file);
-    std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
-    pipe_file_rx->receive();
+    try {
+        auto pipe_rx = std::make_unique<CreatorPipeRx>();
+        file = pipe_rx->openWriteFile(path);
+
+        std::unique_ptr<ReceiverIPC> pipe_file_rx = std::move(pipe_rx->createIpcRx(&file));
+        pipe_file_rx->receive();
+    } catch (const char* msg) {
+        std::cerr << msg << std::endl;
+    }
+    
 }
 
 void run_pipe_tx(void)
@@ -46,14 +50,17 @@ void run_pipe_tx(void)
     #if PRINT
     std::cout << "Launch Pipe Tx" << std::endl;
     #endif  
-    
-    //CreatorIPC* pipe_tx = new CreatorPipeTx();
-    auto pipe_tx = std::make_unique<CreatorPipeTx>();
-    file = pipe_tx->openReadFile(path);
-    
-    // SenderIPC* pipe_file_tx = pipe_tx->createIpcTx(&file);
-    std::unique_ptr<SenderIPC> pipe_file_tx = std::move(pipe_tx->createIpcTx(&file));
-    pipe_file_tx->send();
+
+    try {
+        auto pipe_tx = std::make_unique<CreatorPipeTx>();
+        file = pipe_tx->openReadFile(path);
+
+        std::unique_ptr<SenderIPC> pipe_file_tx = std::move(pipe_tx->createIpcTx(&file));
+        pipe_file_tx->send();
+    } catch (const char* msg) {
+        std::cerr << msg << std::endl;
+    }
+
 }
 
 int run_pipe_test(void)

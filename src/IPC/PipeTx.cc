@@ -21,6 +21,10 @@ void PipeTx::send(void) {
 void PipeTx::setupPipeTx(void) {
     fd = open(FIFO_FILE, O_CREAT|O_WRONLY);
 
+    if (fd == -1) {
+        throw std::runtime_error("Pipe-Tx couldn't be opened");
+    }
+
     #if PRINT
     std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
     #endif
@@ -54,6 +58,8 @@ void PipeTx::fileSizeTx(void) {
 
 void PipeTx::pipeTx(void) {
     int n = 0;
+    int write_bytes;
+    
     while (1) {
         this->file->read(this->readbuf, sizeof(this->readbuf)-1);
 
@@ -64,7 +70,10 @@ void PipeTx::pipeTx(void) {
             #if PRINT
             std::cout << "Last string: " << readbuf << std::endl;
             #endif
-            write(this->fd, this->readbuf, remaining_bytes);
+            write_bytes = write(this->fd, this->readbuf, remaining_bytes);
+            if (write_bytes == -1) {
+                throw std::runtime_error("Pipe-Tx write failed");
+            }
             usleep(100000); // 100ms
             break;
         }
@@ -74,7 +83,10 @@ void PipeTx::pipeTx(void) {
         #if PRINT
         std::cout << "Read string: " << this->readbuf << std::endl;
         #endif
-        write(this->fd, this->readbuf, sizeof(this->readbuf));
+        write_bytes = write(this->fd, this->readbuf, sizeof(this->readbuf));
+        if (write_bytes == -1) {
+            throw std::runtime_error("Pipe-Tx write failed");
+        }
         usleep(100000); // 100ms
         n +=1;
     }
