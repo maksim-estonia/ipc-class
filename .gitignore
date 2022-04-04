@@ -3,3 +3,4 @@
 /bazel-out
 /nazel-testlogs
 bazel-testlogs
+/.vscode
