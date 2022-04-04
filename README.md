@@ -49,15 +49,11 @@ For building we use Bazel
 
 - Build (receive)
   
-```
-bazel build --cxxopt='-std=c++14' //src/main:receive_main
-```
+`bazel build --cxxopt='-std=c++14' //src/main:receive_main`
 
 - Build (send)
   
-```
-bazel build --cxxopt='-std=c++14' //src/main:send_main
-```
+`bazel build --cxxopt='-std=c++14' //src/main:send_main`
 
 There is also an option to build with `PRINT` (prints out more information)
 
