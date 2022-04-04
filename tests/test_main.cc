@@ -84,14 +84,19 @@ int run_pipe_test(void)
 
 TEST(IpcTest, Pipe)
 {
+    std::string input_path{"data/pipe_input.txt"};
+    std::string output_path{"data/pipe_output.txt"};
+
+    // clear output_path file
+    std::fstream file_clear;
+    file_clear.open(output_path, std::fstream::out | std::fstream::trunc);
+    file_clear.close();
+
     // run pipe file transfer
     run_pipe_test();
 
     // compare input.txt and output.txt
-    std::string input_path{"data/pipe_input.txt"};
-    std::string output_path{"data/pipe_output.txt"};
-    bool files_equal;
-
+    bool files_equal = false;
     files_equal = compare_files(input_path, output_path);
 
     EXPECT_TRUE(files_equal);
@@ -99,14 +104,19 @@ TEST(IpcTest, Pipe)
 
 TEST(IpcTest, Queue)
 {
+    std::string input_path{"data/queue_input.txt"};
+    std::string output_path{"data/queue_output.txt"};
+
+    // clear output_path file
+    std::fstream file_clear;
+    file_clear.open(output_path, std::fstream::out | std::fstream::trunc);
+    file_clear.close();
+
     // run queue file transfer
     //run_queue_test();
 
     // compare input.txt and output.txt
-    std::string input_path{"data/queue_input.txt"};
-    std::string output_path{"data/queue_output.txt"};
-    bool files_equal;
-
+    bool files_equal = false;
     files_equal = compare_files(input_path, output_path);
 
     EXPECT_TRUE(files_equal);
@@ -114,14 +124,19 @@ TEST(IpcTest, Queue)
 
 TEST(IpcTest, Shm)
 {
+    std::string input_path{"data/shm_input.txt"};
+    std::string output_path{"data/shm_output.txt"};
+
+    // clear output_path file
+    std::fstream file_clear;
+    file_clear.open(output_path, std::fstream::out | std::fstream::trunc);
+    file_clear.close();
+
     // run shm file transfer
     //run_shm_test();
 
     // compare input.txt and output.txt
-    std::string input_path{"data/shm_input.txt"};
-    std::string output_path{"data/shm_output.txt"};
-    bool files_equal;
-
+    bool files_equal = false;
     files_equal = compare_files(input_path, output_path);
 
     EXPECT_TRUE(files_equal);
