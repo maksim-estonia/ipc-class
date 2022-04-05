@@ -69,12 +69,13 @@ void PipeTx::pipeTx(void) {
             readbuf[remaining_bytes] = '\0';
             #if PRINT
             std::cout << "Last string: " << readbuf << std::endl;
+            std::cout << "--->" << (int)strlen(readbuf) << std::endl;
             #endif
             write_bytes = write(this->fd, this->readbuf, remaining_bytes);
             if (write_bytes == -1) {
                 throw std::runtime_error("Pipe-Tx write failed");
             }
-            // usleep(100000); // 100ms
+            usleep(100000); // 100ms
             break;
         }
 
@@ -82,12 +83,13 @@ void PipeTx::pipeTx(void) {
         this->readbuf[sizeof(this->readbuf)-1] = '\0';
         #if PRINT
         std::cout << "Read string: " << this->readbuf << std::endl;
+        std::cout << "--->" << (int)strlen(readbuf) << std::endl;
         #endif
         write_bytes = write(this->fd, this->readbuf, sizeof(this->readbuf));
         if (write_bytes == -1) {
             throw std::runtime_error("Pipe-Tx write failed");
         }
-        // usleep(100000); // 100ms
+        usleep(100000); // 100ms
         n +=1;
     }
 
