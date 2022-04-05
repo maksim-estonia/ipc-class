@@ -1,8 +1,10 @@
 cc_test(
-    name = "tests",
-    srcs = glob(["**/*.cc"]),
+    name = "GoogleTest",
+    size = "small",
+    srcs = ["test_main.cc"],
     deps = [
-        "//src/lib:GreetingLib",
         "@googletest//:gtest_main",
+        "//src/IPC:IpcLib",
     ],
+    data = ["//data:pipe_input.txt", "//data:pipe_output.txt", "//data:queue_input.txt", "//data:queue_output.txt", "//data:shm_input.txt", "//data:shm_output.txt"],
 )

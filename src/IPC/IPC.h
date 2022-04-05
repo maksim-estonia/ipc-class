@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 // PIPE
 #include <fcntl.h>
@@ -10,7 +11,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #define PIPE_SIZE 1024
-#define FIFO_FILE "/home/maksim/ipc-class/MYFIFO"
+#define FIFO_FILE "./MYFIFO"
 
 /*
     The Product interface declares the operations that all concrete 
@@ -19,13 +20,13 @@
 class ReceiverIPC {
     public:
         virtual ~ReceiverIPC() {}
-        virtual std::string receive() = 0;
+        virtual void receive() = 0;
 };
 
 class SenderIPC {
     public:
         virtual ~SenderIPC() {}
-        virtual std::string send() = 0;
+        virtual void send() = 0;
 };
 
 /*
@@ -40,29 +41,29 @@ class PipeRx: public ReceiverIPC {
     int size = 0;
     public:
         PipeRx(std::fstream *file_in):file{file_in}{}
-        std::string receive() override;
+        void receive() override;
     private:
-        std::string setupPipeRx();
-        std::string fileSizeRx();
-        std::string pipeRx();
+        void setupPipeRx();
+        void fileSizeRx();
+        void pipeRx();
 };
 
 class QueueRx: public ReceiverIPC {
     public:
-        std::string receive() override;
+        void receive() override;
     private:
-        std::string setupQueueRx() const;
-        std::string fileSizeRx() const;
-        std::string queueRx() const;
+        void setupQueueRx() const;
+        void fileSizeRx() const;
+        void queueRx() const;
 };
 
 class ShmRx: public ReceiverIPC {
     public:
-        std::string receive() override;
+        void receive() override;
     private:
-        std::string setupShmRx() const;
-        std::string fileSizeRx() const;
-        std::string shmRx() const;
+        void setupShmRx() const;
+        void fileSizeRx() const;
+        void shmRx() const;
 };
 
 class PipeTx: public SenderIPC {
@@ -72,29 +73,29 @@ class PipeTx: public SenderIPC {
     int size;
     public:
         PipeTx(std::fstream *file_in):file{file_in}{}
-        std::string send() override;
+        void send() override;
     private:
-        std::string setupPipeTx();
-        std::string fileSizeTx();
-        std::string pipeTx();
+        void setupPipeTx();
+        void fileSizeTx();
+        void pipeTx();
 };
 
 class QueueTx: public SenderIPC {
     public:
-        std::string send() override;
+        void send() override;
     private:
-        std::string setupQueueTx() const;
-        std::string fileSizeTx() const;
-        std::string queueTx() const;
+        void setupQueueTx() const;
+        void fileSizeTx() const;
+        void queueTx() const;
 };
 
 class ShmTx: public SenderIPC {
     public:
-        std::string send() override;
+        void send() override;
     private:
-        std::string setupShmTx() const;
-        std::string fileSizeTx() const;
-        std::string shmTx() const;
+        void setupShmTx() const;
+        void fileSizeTx() const;
+        void shmTx() const;
 };
 
 
@@ -110,10 +111,14 @@ class CreatorIPC{
     */
     public:
         virtual ~CreatorIPC(){};
-        virtual ReceiverIPC* createIpcRx() const { return nullptr; };
-        virtual ReceiverIPC* createIpcRx(std::fstream *) const { return nullptr; }
-        virtual SenderIPC* createIpcTx() const { return nullptr; };
-        virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
+        // virtual ReceiverIPC* createIpcRx() const { return nullptr; };
+        // virtual ReceiverIPC* createIpcRx(std::fstream *) const { return nullptr; }
+        // virtual SenderIPC* createIpcTx() const { return nullptr; };
+        // virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
+        virtual std::unique_ptr<ReceiverIPC> createIpcRx() const { return nullptr; };
+        virtual std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *) const { return nullptr; };
+        virtual std::unique_ptr<SenderIPC> createIpcTx() const { return nullptr; };
+        virtual std::unique_ptr<SenderIPC> createIpcTx(std::fstream *) const { return nullptr; };
         /*
         Also note that, despite its name, the Creator's primary responsibility is
         not creating products. Usually, it contains some core business logic that
@@ -121,8 +126,8 @@ class CreatorIPC{
         indirectly change that business logic by overriding the factory method and
         returning a different type of product from it.
         */
-       std::fstream openWriteFile(char *path) const;
-       std::fstream openReadFile(char *path) const;
+       std::fstream openWriteFile(const char *path) const;
+       std::fstream openReadFile(const char *path) const;
 };
 
 /*
@@ -131,43 +136,44 @@ class CreatorIPC{
 */
 class CreatorPipeRx: public CreatorIPC {
     public:
-        ReceiverIPC* createIpcRx(std::fstream *file_in) const override {
-            return new PipeRx(file_in);
+        std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *file_in) const override {
+            //return PipeRx(file_in);
+            return std::make_unique<PipeRx>(file_in);
         }
 };
 
 class CreatorQueueRx: public CreatorIPC {
     public:
-        ReceiverIPC* createIpcRx() const override {
-            return new QueueRx();
+        std::unique_ptr<ReceiverIPC> createIpcRx() const override {
+            return std::make_unique<QueueRx>();
         }
 };
 
 class CreatorShmRx: public CreatorIPC {
     public:
-        ReceiverIPC* createIpcRx() const override {
-            return new ShmRx();
+        std::unique_ptr<ReceiverIPC> createIpcRx() const override {
+            return std::make_unique<ShmRx>();
         }
 };
 
 class CreatorPipeTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx(std::fstream *file_in) const override {
-            return new PipeTx(file_in);
+        std::unique_ptr<SenderIPC> createIpcTx(std::fstream *file_in) const override {
+            return std::make_unique<PipeTx>(file_in);
         }
 };
 
 class CreatorQueueTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx() const override {
-            return new QueueTx();
+        std::unique_ptr<SenderIPC> createIpcTx() const override {
+            return std::make_unique<QueueTx>();
         }
 };
 
 class CreatorShmTx: public CreatorIPC {
     public:
-        SenderIPC* createIpcTx() const override {
-            return new ShmTx();
+        std::unique_ptr<SenderIPC> createIpcTx() const override {
+            return std::make_unique<ShmTx>();
         }
 };
 

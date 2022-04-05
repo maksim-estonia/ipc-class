@@ -1,0 +1,1 @@
+exports_files(["pipe_input.txt", "pipe_output.txt", "queue_input.txt", "queue_output.txt", "shm_input.txt", "shm_output.txt"])

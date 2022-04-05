@@ -1,27 +1,22 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string ShmRx::receive(void) {
-    std::string result = this->setupShmRx();
-    std::cout << result;
+void ShmRx::receive(void) {
+    this->setupShmRx();
 
-    result = this->fileSizeRx();
-    std::cout << result;
+    this->fileSizeRx();
 
-    result = this->shmRx();
-    std::cout << result;
-
-    return "ShmRx: receive process end\n";
+    this->shmRx();
 }
 
-std::string ShmRx::setupShmRx(void) const {
-    return "  ShmRx: setupShmRx\n";
+void ShmRx::setupShmRx(void) const {
+    ;
 }
 
-std::string ShmRx::fileSizeRx(void) const {
-    return "  ShmRx: fileSizeRx\n";
+void ShmRx::fileSizeRx(void) const {
+    ;
 }
 
-std::string ShmRx::shmRx() const {
-    return "  ShmRx: shmRx\n";
+void ShmRx::shmRx() const {
+    ;
 }

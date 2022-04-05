@@ -1,27 +1,22 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string ShmTx::send(void) {
-    std::string result = this->setupShmTx();
-    std::cout << result;
+void ShmTx::send(void) {
+    this->setupShmTx();
 
-    result = this->fileSizeTx();
-    std::cout << result;
+    this->fileSizeTx();
 
-    result = this->shmTx();
-    std::cout << result;
-
-    return "ShmTx: send process end\n";
+    this->shmTx();
 }
 
-std::string ShmTx::setupShmTx(void) const {
-    return "  ShmTx: setupShmTx\n";
+void ShmTx::setupShmTx(void) const {
+    ;
 }
 
-std::string ShmTx::fileSizeTx(void) const {
-    return "  ShmTx: fileSizeTx\n";
+void ShmTx::fileSizeTx(void) const {
+    ;
 }
 
-std::string ShmTx::shmTx(void) const {
-    return "  ShmTx: shmTx\n";
+void ShmTx::shmTx(void) const {
+    ;
 }

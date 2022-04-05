@@ -1,30 +1,36 @@
 #include <iostream>
 #include "IPC.h"
 
-std::string PipeTx::send(void) {
-    std::string result = this->setupPipeTx();
-    std::cout << result;
+void PipeTx::send(void) {
+    this->setupPipeTx();
 
-    result = this->fileSizeTx();
-    std::cout << result;
+    this->fileSizeTx();
 
-    result = this->pipeTx();
-    std::cout << result;
+    this->pipeTx();
 
     // close pipe
     close(this->fd);
     //close file
     this->file->close();
 
-    return "PipeTx: send process end\n";
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif 
 }
 
-std::string PipeTx::setupPipeTx(void) {
+void PipeTx::setupPipeTx(void) {
     fd = open(FIFO_FILE, O_CREAT|O_WRONLY);
-    return "  PipeTx: setupPipeTx\n";
+
+    if (fd == -1) {
+        throw std::runtime_error("Pipe-Tx couldn't be opened");
+    }
+
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif
 }
 
-std::string PipeTx::fileSizeTx(void) {
+void PipeTx::fileSizeTx(void) {
     // find file size
     // set position to begin of file
     this->file->seekg(0, std::ios::beg);
@@ -36,18 +42,24 @@ std::string PipeTx::fileSizeTx(void) {
     // set position back to begin
     this->file->seekg(0, std::ios::beg);
 
+    #if PRINT
     std::cout << "  FILE SIZE: " << this->size << std::endl;
+    #endif
 
     // send file size
     sprintf(this->readbuf, "%d", this->size);
     write(this->fd, this->readbuf, strlen(this->readbuf));
     usleep(100000); // 100ms
 
-    return "  PipeTx: fileSizeTx\n";
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif
 }
 
-std::string PipeTx::pipeTx(void) {
+void PipeTx::pipeTx(void) {
     int n = 0;
+    int write_bytes;
+    
     while (1) {
         this->file->read(this->readbuf, sizeof(this->readbuf)-1);
 
@@ -55,19 +67,33 @@ std::string PipeTx::pipeTx(void) {
             // EOF reached, send last string
             int remaining_bytes = (this->size) - (sizeof(readbuf)-1)*n;
             readbuf[remaining_bytes] = '\0';
+            #if PRINT
             std::cout << "Last string: " << readbuf << std::endl;
-            write(this->fd, this->readbuf, remaining_bytes);
+            std::cout << "--->" << (int)strlen(readbuf) << std::endl;
+            #endif
+            write_bytes = write(this->fd, this->readbuf, remaining_bytes);
+            if (write_bytes == -1) {
+                throw std::runtime_error("Pipe-Tx write failed");
+            }
             usleep(100000); // 100ms
             break;
         }
 
         // sending full buffer
         this->readbuf[sizeof(this->readbuf)-1] = '\0';
+        #if PRINT
         std::cout << "Read string: " << this->readbuf << std::endl;
-        write(this->fd, this->readbuf, sizeof(this->readbuf));
+        std::cout << "--->" << (int)strlen(readbuf) << std::endl;
+        #endif
+        write_bytes = write(this->fd, this->readbuf, sizeof(this->readbuf));
+        if (write_bytes == -1) {
+            throw std::runtime_error("Pipe-Tx write failed");
+        }
         usleep(100000); // 100ms
         n +=1;
     }
 
-    return "  PipeTx: pipeTx\n";
+    #if PRINT
+    std::cout << __PRETTY_FUNCTION__ << " finished" << std::endl;
+    #endif
 }
