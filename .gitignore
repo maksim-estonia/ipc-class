@@ -4,3 +4,4 @@
 /nazel-testlogs
 bazel-testlogs
 /.vscode
+test-log.txt
