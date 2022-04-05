@@ -74,7 +74,7 @@ void PipeTx::pipeTx(void) {
             if (write_bytes == -1) {
                 throw std::runtime_error("Pipe-Tx write failed");
             }
-            usleep(100000); // 100ms
+            // usleep(100000); // 100ms
             break;
         }
 
@@ -87,7 +87,7 @@ void PipeTx::pipeTx(void) {
         if (write_bytes == -1) {
             throw std::runtime_error("Pipe-Tx write failed");
         }
-        usleep(100000); // 100ms
+        // usleep(100000); // 100ms
         n +=1;
     }
 

@@ -68,7 +68,9 @@ void PipeRx::pipeRx(void) {
         #endif
 
         // write to file
-        *file << readbuf;
+        //*file << readbuf;
+        file->write(readbuf, read_bytes);
+        // usleep(1000000);
 
         // if all bytes received, we can stop
         if (total_read_bytes >= size) {

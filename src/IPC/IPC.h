@@ -11,7 +11,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #define PIPE_SIZE 1024
-#define FIFO_FILE "/home/maksim/ipc-class/MYFIFO"
+#define FIFO_FILE "./MYFIFO"
 
 /*
     The Product interface declares the operations that all concrete 
