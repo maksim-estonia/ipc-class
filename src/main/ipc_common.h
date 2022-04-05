@@ -4,17 +4,6 @@
 #include <getopt.h>
 #include <iostream>
 
-/* command line options (for getopt long) */
-static struct option long_options[] = 
-{
-    {"help",        no_argument,        0,  'h'},
-    {"queue",       no_argument,        0,  'q'},
-    {"pipe",        no_argument,        0,  'p'},
-    {"shm",         no_argument,        0,  's'},
-    {"file",        required_argument,  0,  'f'},
-    {0, 0, 0, 0}
-};
-
 enum class Transport_type
 {
     DEFAULT,
