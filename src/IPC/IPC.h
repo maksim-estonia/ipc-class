@@ -111,10 +111,6 @@ class CreatorIPC{
     */
     public:
         virtual ~CreatorIPC(){};
-        // virtual ReceiverIPC* createIpcRx() const { return nullptr; };
-        // virtual ReceiverIPC* createIpcRx(std::fstream *) const { return nullptr; }
-        // virtual SenderIPC* createIpcTx() const { return nullptr; };
-        // virtual SenderIPC* createIpcTx(std::fstream *) const { return nullptr; };
         virtual std::unique_ptr<ReceiverIPC> createIpcRx() const { return nullptr; };
         virtual std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *) const { return nullptr; };
         virtual std::unique_ptr<SenderIPC> createIpcTx() const { return nullptr; };
@@ -137,7 +133,6 @@ class CreatorIPC{
 class CreatorPipeRx: public CreatorIPC {
     public:
         std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *file_in) const override {
-            //return PipeRx(file_in);
             return std::make_unique<PipeRx>(file_in);
         }
 };

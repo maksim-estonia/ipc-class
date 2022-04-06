@@ -55,10 +55,7 @@ void PipeRx::pipeRx(void) {
         if (read_bytes == -1) {
             throw std::runtime_error("Pipe-Rx read failed");
         }
-        // if (read_bytes <= 1) {
-            //skip empty read
-            // continue;
-        // }
+    
         total_read_bytes += read_bytes;
         readbuf[read_bytes] = '\0';
 
