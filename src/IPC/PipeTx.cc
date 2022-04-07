@@ -1,4 +1,3 @@
-#include <iostream>
 #include "IPC.h"
 
 void PipeTx::send(void) {

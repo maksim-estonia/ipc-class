@@ -1,17 +1,10 @@
 #ifndef IPC_CLASS_H
 #define IPC_CLASS_H
 
-#include <iostream>
-#include <fstream>
-#include <memory>
+#include <fstream>  /* std::fstream */
+#include <memory>   /* unique_ptr */
 
-// PIPE
-#include <fcntl.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#define PIPE_SIZE 1024
-#define FIFO_FILE "./MYFIFO"
+#define BUFFERSIZE  1024 
 
 /*
     The Product interface declares the operations that all concrete 
@@ -36,7 +29,7 @@ class SenderIPC {
 class PipeRx: public ReceiverIPC {
     std::fstream *file;
     int fd;
-    char readbuf[PIPE_SIZE];
+    char readbuf[BUFFERSIZE];
     int read_bytes;
     int size = 0;
     public:
@@ -69,7 +62,7 @@ class ShmRx: public ReceiverIPC {
 class PipeTx: public SenderIPC {
     std::fstream *file;
     int fd;
-    char readbuf[PIPE_SIZE];
+    char readbuf[BUFFERSIZE];
     int size;
     public:
         PipeTx(std::fstream *file_in):file{file_in}{}
