@@ -36,7 +36,6 @@ class PipeRx: public ReceiverIPC {
         void receive() override;
     private:
         void setupPipeRx();
-        void fileSizeRx();
         void pipeRx();
 };
 
@@ -59,10 +58,8 @@ class ShmRx: public ReceiverIPC {
 };
 
 class PipeTx: public SenderIPC {
-    /* variables for reading from readFile */
     char readBuf[BUFFERSIZE];
     std::fstream *readFile;
-    /* variables for pipe */
     int fd;     /* file descriptor pipe */
 
     public:
@@ -70,7 +67,6 @@ class PipeTx: public SenderIPC {
         void send() override;
     private:
         void setupPipeTx();
-        void fileSizeTx();
         void pipeTx();
 };
 

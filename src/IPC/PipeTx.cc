@@ -47,7 +47,7 @@ void PipeTx::pipeTx(void) {
             write(fd, readBuf, remainingBytes);
             this->readBuf[remainingBytes] = '\0';   /* necessary to print out buffer partially */
             #if PRINT
-            std::cout << readBuf << std::endl;
+            std::cout << this->readBuf << std::endl;
             std::cout << "-------------" << std::endl;
             #endif
             break;
