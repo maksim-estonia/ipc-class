@@ -69,14 +69,14 @@ There is also an option to build with `PRINT` (prints out more information)
 
   ```
   cd bazel-bin/src/main
-  ./receive_main --pipe --file output.txt
+  ./receive_main --pipe --file pipe_output.txt
   ```
 
   - start send side
 
   ```
   cd bazel-bin/src/main
-  ./send_main --pipe --file input.txt
+  ./send_main --pipe --file pipe_input.txt
   ```
 
 ## Testing

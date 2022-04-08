@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fcntl.h>      /* O_RDONLY */
 #include <unistd.h>     /* read() close() unlink() */
+#include <sys/stat.h>   /* mkfifo() */
 
 #define FIFO "./fifoChannel"
 

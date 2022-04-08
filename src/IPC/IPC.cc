@@ -1,5 +1,7 @@
 #include "IPC.h"
 
+#include <iostream>
+
 /*
     Concrete Products provide various implementations
     of the Product interface
