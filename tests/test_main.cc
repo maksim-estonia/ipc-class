@@ -73,7 +73,13 @@ int run_pipe_test(void)
     std::cout << "----------------------Starting run_pipe_test----------------------" << std::endl;
     #endif
     std::thread th_tx(run_pipe_tx);
-    usleep(1000000);    
+    usleep(1000000);  
+    // std::cout << "tx started" << std::endl;
+    // std::ifstream f(FIFO);
+    // while (!f.good()) {
+    //     usleep(100000);
+    // }  
+    // std::cout << "f.good" << std::endl;
     std::thread th_rx(run_pipe_rx);
 
     //wait for both threads to finish

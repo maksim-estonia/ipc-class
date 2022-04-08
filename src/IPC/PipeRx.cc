@@ -4,6 +4,8 @@
 #include <fcntl.h>      /* O_RDONLY */
 #include <unistd.h>     /* read() close() unlink() */
 #include <sys/stat.h>   /* mkfifo() */
+#include <errno.h>  
+#include <string.h>
 
 #define FIFO "./fifoChannel"
 
@@ -14,10 +16,12 @@ void PipeRx::receive(void) {
 }
 
 void PipeRx::setupPipeRx(void) {
+    // mkfifo(FIFO, 0666);
     this->fd = open(FIFO, O_RDONLY);
     if (fd < 0) {
-        throw std::runtime_error("Rx Pipe couldn't be opened");
+        throw std::runtime_error(strerror(errno));
     }
+    std::cout << "Rx opened" << std::endl;
 }
 
 void PipeRx::pipeRx(void) {

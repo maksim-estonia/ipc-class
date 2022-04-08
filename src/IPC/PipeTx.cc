@@ -18,7 +18,8 @@ void PipeTx::setupPipeTx(void) {
     this->fd = open(FIFO, O_CREAT | O_WRONLY);  
     if (fd < 0) {
         throw std::runtime_error("Tx Pipe couldn't be opened");
-    }     
+    }
+    std::cout << "Tx opened" << std::endl;     
 }
 
 void PipeTx::pipeTx(void) {
