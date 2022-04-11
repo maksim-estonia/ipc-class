@@ -16,7 +16,7 @@ void PipeRx::receive(void) {
 }
 
 void PipeRx::setupPipeRx(void) {
-    // mkfifo(FIFO, 0666);
+    mkfifo(FIFO, 0666);
     this->fd = open(FIFO, O_RDONLY);
     if (fd < 0) {
         throw std::runtime_error(strerror(errno));
