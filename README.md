@@ -45,6 +45,8 @@ Execute `./setup_environment.sh`
 
 Execute `./build_and_run_tests.sh`
 
+Test output can be found in `test-log.txt`
+
 For building we use Bazel
 
 - Build (receive)
@@ -65,19 +67,21 @@ There is also an option to build with `PRINT` (prints out more information)
 
 - pipe
 
-  - start receive side
-
-  ```
-  cd bazel-bin/src/main
-  ./receive_main --pipe --file pipe_output.txt
-  ```
-
   - start send side
 
   ```
   cd bazel-bin/src/main
-  ./send_main --pipe --file pipe_input.txt
+  ./send_main --pipe --file pipe-input.txt
   ```
+
+  - start receive side
+
+  ```
+  cd bazel-bin/src/main
+  ./receive_main --pipe --file pipe-output.txt
+  ```
+
+
 
 ## Testing
 
