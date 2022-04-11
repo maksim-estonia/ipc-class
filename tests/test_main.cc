@@ -8,7 +8,6 @@
 
 #include <unistd.h> /* usleep() */
 
-// file comparison from https://stackoverflow.com/questions/6163611/compare-two-files
 #include <iterator>
 #include <string>
 #include <algorithm>
@@ -73,7 +72,7 @@ int run_pipe_test(void)
     std::cout << "----------------------Starting run_pipe_test----------------------" << std::endl;
     #endif
     std::thread th_tx(run_pipe_tx);
-    usleep(1000000);  
+    //usleep(1000000);  
     std::thread th_rx(run_pipe_rx);
 
     //wait for both threads to finish
@@ -146,6 +145,7 @@ TEST(IpcTest, Shm)
     EXPECT_TRUE(files_equal);
 }
 
+/* from https://stackoverflow.com/questions/6163611/compare-two-files */
 bool compare_files(const std::string& p1, const std::string& p2)
 {
     std::ifstream f1(p1, std::ifstream::binary|std::ifstream::ate);
