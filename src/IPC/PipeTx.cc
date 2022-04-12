@@ -74,13 +74,6 @@ void PipeTx::pipeTx(void) {
 
         n +=1;  /* keeping track of number of full buffer sent */
     }
-
-    /* close readFile */
-    this->readFile->close();
-    /* close pipe: generates an end-of-stream marker */
-    close(this->fd);
-    /* unlink from file */
-    unlink(FIFO);
 }
 
 PipeTx::~PipeTx(void) {
