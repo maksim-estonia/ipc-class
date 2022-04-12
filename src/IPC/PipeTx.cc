@@ -77,9 +77,14 @@ void PipeTx::pipeTx(void) {
 
     /* close readFile */
     this->readFile->close();
-
     /* close pipe: generates an end-of-stream marker */
     close(this->fd);
     /* unlink from file */
     unlink(FIFO);
+}
+
+PipeTx::~PipeTx(void) {
+    this->readFile->close();    /* close readFile */
+    close(this->fd);            /* close pipe */
+    unlink(FIFO);               /* unlink from the file */
 }

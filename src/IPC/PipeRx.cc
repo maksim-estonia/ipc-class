@@ -55,7 +55,10 @@ void PipeRx::pipeRx(void) {
             this->writeFile->write(writeBuf, count);
         }
     }
+}
 
-    close(this->fd);    /* close pipe from read end */
-    unlink(FIFO);       /* unlink from the file */
+PipeRx::~PipeRx(void) {
+    this->writeFile->close();   /* close writeFile */
+    close(this->fd);            /* close pipe */
+    unlink(FIFO);               /* unlink from the file */
 }
