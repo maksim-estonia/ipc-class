@@ -16,9 +16,17 @@ void PipeRx::receive(void) {
 }
 
 void PipeRx::setupPipeRx(void) {
-    mkfifo(FIFO, 0666);
+    int status = mkfifo(FIFO, S_IRWXU | S_IRWXG);
+    if (status < 0) {
+        if (errno == EEXIST) {
+            ;   /* if fifo file already exists this is ok */
+        }
+        else {
+            throw std::runtime_error(strerror(errno));
+        }
+    }
     this->fd = open(FIFO, O_RDONLY);
-    if (fd < 0) {
+    if (this->fd < 0) {
         throw std::runtime_error(strerror(errno));
     }
     std::cout << "Rx opened" << std::endl;
@@ -28,22 +36,22 @@ void PipeRx::pipeRx(void) {
     ssize_t count;
 
     while (1) {
-        count = read(this->fd, this->writeBuf, BUFFERSIZE);
+        count = read(this->fd, writeBuf, BUFFERSIZE);
 
         /* end-of-stream */
         if (count == 0)
             break;
         
         else {
-            if (count < BUFFERSIZE) {
-                this->writeBuf[count] = '\0';  /* necessary to print out buffer partially */
-            }
             #if PRINT
-            std::cout << this->writeBuf << std::endl;
+            // if (count < BUFFERSIZE) {
+            //     this->writeBuf[count] = '\0';  /* necessary to print out buffer partially */
+            // }
+            std::cout << std::string(writeBuf, count) << std::endl;
             std::cout << "-------------" << std::endl;
             #endif
             /* write to writeFile */
-            this->writeFile->write(this->writeBuf, count);
+            this->writeFile->write(writeBuf, count);
         }
     }
 

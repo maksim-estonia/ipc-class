@@ -4,6 +4,8 @@
 #include <fcntl.h>      /* O_CREAT, O_WRONLY */
 #include <iostream>     /* std::cout std::ios seekg() */
 #include <unistd.h>     /* write() */
+#include <errno.h>      /* errno */
+#include <string.h>     /* strerror */
 
 #define FIFO "./fifoChannel"
 
@@ -14,9 +16,17 @@ void PipeTx::send(void) {
 }
 
 void PipeTx::setupPipeTx(void) {
-    mkfifo(FIFO, 0666);                         /* read/write for user/group/others */
-    this->fd = open(FIFO, O_CREAT | O_WRONLY);  
-    if (fd < 0) {
+    int status = mkfifo(FIFO, S_IRWXU | S_IRWXG);
+    if (status < 0) {
+        if (errno == EEXIST) {
+            ;   /* if fifo file already exists this is ok */
+        }
+        else {
+            throw std::runtime_error(strerror(errno));
+        }
+    }
+    this->fd = open(FIFO, O_WRONLY);  
+    if (this->fd < 0) {
         throw std::runtime_error("Tx Pipe couldn't be opened");
     }
     std::cout << "Tx opened" << std::endl;     
@@ -39,28 +49,27 @@ void PipeTx::pipeTx(void) {
 
     while (1) {
         /* reading from readFile */
-        this->readFile->read(this->readBuf, BUFFERSIZE);
+        this->readFile->read(readBuf, BUFFERSIZE);
 
         /* if EOF reached, write last part and break loop */
         if (this->readFile->eof()) {
             int remainingBytes = lengthFile - BUFFERSIZE*n;
             /* write to pipe (partial buffer) */
-            write(fd, readBuf, remainingBytes);
-            this->readBuf[remainingBytes] = '\0';   /* necessary to print out buffer partially */
+            write(this->fd, readBuf, remainingBytes);
             #if PRINT
-            std::cout << this->readBuf << std::endl;
+            std::cout << std::string(readBuf, remainingBytes) << std::endl;
             std::cout << "-------------" << std::endl;
             #endif
             break;
         }
 
         #if PRINT
-        std::cout << readBuf << std::endl;
+        std::cout << std::string(readBuf, sizeof(readBuf)) << std::endl;
         std::cout << "-------------" << std::endl;
         #endif
 
         /* write to pipe (full buffer) */
-        write(fd, readBuf, BUFFERSIZE);
+        write(this->fd, readBuf, BUFFERSIZE);
 
         n +=1;  /* keeping track of number of full buffer sent */
     }
@@ -69,7 +78,7 @@ void PipeTx::pipeTx(void) {
     this->readFile->close();
 
     /* close pipe: generates an end-of-stream marker */
-    close(fd);
+    close(this->fd);
     /* unlink from file */
     unlink(FIFO);
 }
