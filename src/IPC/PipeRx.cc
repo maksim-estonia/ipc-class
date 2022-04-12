@@ -33,6 +33,7 @@ void PipeRx::setupPipeRx(void) {
 }
 
 void PipeRx::pipeRx(void) {
+    char writeBuf[BUFFERSIZE];
     ssize_t count;
 
     while (1) {

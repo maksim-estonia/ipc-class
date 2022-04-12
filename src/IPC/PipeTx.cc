@@ -33,6 +33,7 @@ void PipeTx::setupPipeTx(void) {
 }
 
 void PipeTx::pipeTx(void) {
+    char readBuf[BUFFERSIZE];
     int n = 0;  /* keeping track of number of full buffer sent */
 
     /* determine length of file */

@@ -27,7 +27,7 @@ class SenderIPC {
     of the Product interface
 */
 class PipeRx: public ReceiverIPC {
-    char writeBuf[BUFFERSIZE];
+    // char writeBuf[BUFFERSIZE];
     std::fstream *writeFile;
     int fd; /* file descriptor pipe */
 
@@ -58,7 +58,7 @@ class ShmRx: public ReceiverIPC {
 };
 
 class PipeTx: public SenderIPC {
-    char readBuf[BUFFERSIZE];
+    // char readBuf[BUFFERSIZE];
     std::fstream *readFile;
     int fd;     /* file descriptor pipe */
 
