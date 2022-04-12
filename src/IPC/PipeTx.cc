@@ -35,30 +35,18 @@ void PipeTx::setupPipeTx(void) {
 void PipeTx::pipeTx(void) {
     char readBuf[BUFFERSIZE];
     int n = 0;  /* keeping track of number of full buffer sent */
-
-    /* determine length of file */
-    this->readFile->seekg(0, std::ios::beg);    /* set position to begin of file */
-    auto begin = this->readFile->tellg();
-    this->readFile->seekg(0, std::ios::end);    /* set position to end of file */
-    auto end = this->readFile->tellg();
-    int lengthFile = (int)(end-begin);          /* store length of file */
-    this->readFile->seekg(0, std::ios::beg);    /* set position back to begin */
-
-    #if PRINT
-    std::cout << "TOTAL LENGTH: " << lengthFile << std::endl;
-    #endif
+    int readBytes = 0;
 
     while (1) {
         /* reading from readFile */
-        this->readFile->read(readBuf, BUFFERSIZE);
+        readBytes = this->readFile->read(readBuf, BUFFERSIZE).gcount();
 
         /* if EOF reached, write last part and break loop */
         if (this->readFile->eof()) {
-            int remainingBytes = lengthFile - BUFFERSIZE*n;
             /* write to pipe (partial buffer) */
-            write(this->fd, readBuf, remainingBytes);
+            write(this->fd, readBuf, readBytes);
             #if PRINT
-            std::cout << std::string(readBuf, remainingBytes) << std::endl;
+            std::cout << std::string(readBuf, readBytes) << std::endl;
             std::cout << "-------------" << std::endl;
             #endif
             break;
@@ -70,7 +58,7 @@ void PipeTx::pipeTx(void) {
         #endif
 
         /* write to pipe (full buffer) */
-        write(this->fd, readBuf, BUFFERSIZE);
+        write(this->fd, readBuf, readBytes);
 
         n +=1;  /* keeping track of number of full buffer sent */
     }
