@@ -29,13 +29,16 @@ void PipeTx::setupPipeTx(void) {
     if (this->fd < 0) {
         throw std::runtime_error("Tx Pipe couldn't be opened");
     }
-    std::cout << "Tx opened" << std::endl;     
+    #if PRINT
+    std::cout << "Tx opened" << std::endl;
+    #endif     
 }
 
 void PipeTx::pipeTx(void) {
     char readBuf[BUFFERSIZE];
     int n = 0;  /* keeping track of number of full buffer sent */
     int readBytes = 0;
+    int writeBytes = 0;
 
     while (1) {
         /* reading from readFile */
@@ -44,7 +47,10 @@ void PipeTx::pipeTx(void) {
         /* if EOF reached, write last part and break loop */
         if (this->readFile->eof()) {
             /* write to pipe (partial buffer) */
-            write(this->fd, readBuf, readBytes);
+            writeBytes = write(this->fd, readBuf, readBytes);
+            if (writeBytes < 0) {
+                throw std::runtime_error(strerror(errno));
+            }
             #if PRINT
             std::cout << std::string(readBuf, readBytes) << std::endl;
             std::cout << "-------------" << std::endl;
@@ -58,7 +64,10 @@ void PipeTx::pipeTx(void) {
         #endif
 
         /* write to pipe (full buffer) */
-        write(this->fd, readBuf, readBytes);
+        writeBytes = write(this->fd, readBuf, readBytes);
+        if (writeBytes < 0) {
+            throw std::runtime_error(strerror(errno));
+        }
 
         n +=1;  /* keeping track of number of full buffer sent */
     }

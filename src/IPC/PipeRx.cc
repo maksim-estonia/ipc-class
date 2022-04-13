@@ -29,7 +29,9 @@ void PipeRx::setupPipeRx(void) {
     if (this->fd < 0) {
         throw std::runtime_error(strerror(errno));
     }
+    #if PRINT
     std::cout << "Rx opened" << std::endl;
+    #endif
 }
 
 void PipeRx::pipeRx(void) {
@@ -45,9 +47,6 @@ void PipeRx::pipeRx(void) {
         
         else {
             #if PRINT
-            // if (count < BUFFERSIZE) {
-            //     this->writeBuf[count] = '\0';  /* necessary to print out buffer partially */
-            // }
             std::cout << std::string(writeBuf, count) << std::endl;
             std::cout << "-------------" << std::endl;
             #endif
