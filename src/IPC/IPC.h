@@ -27,17 +27,15 @@ class SenderIPC {
     of the Product interface
 */
 class PipeRx: public ReceiverIPC {
-    std::fstream *file;
-    int fd;
-    char readbuf[BUFFERSIZE];
-    int read_bytes;
-    int size = 0;
+    std::fstream *writeFile;
+    int fd; /* file descriptor pipe */
+
     public:
-        PipeRx(std::fstream *file_in):file{file_in}{}
+        PipeRx(std::fstream *file_in):writeFile{file_in}{}
         void receive() override;
+        ~PipeRx();
     private:
         void setupPipeRx();
-        void fileSizeRx();
         void pipeRx();
 };
 
@@ -60,16 +58,15 @@ class ShmRx: public ReceiverIPC {
 };
 
 class PipeTx: public SenderIPC {
-    std::fstream *file;
-    int fd;
-    char readbuf[BUFFERSIZE];
-    int size;
+    std::fstream *readFile;
+    int fd;     /* file descriptor pipe */
+
     public:
-        PipeTx(std::fstream *file_in):file{file_in}{}
+        PipeTx(std::fstream *file_in):readFile{file_in}{}
         void send() override;
+        ~PipeTx();
     private:
         void setupPipeTx();
-        void fileSizeTx();
         void pipeTx();
 };
 

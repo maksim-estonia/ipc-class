@@ -6,10 +6,13 @@
 #include <string>
 #include "src/IPC/IPC.h"
 
-// file comparison from https://stackoverflow.com/questions/6163611/compare-two-files
+#include <unistd.h> /* usleep() */
+
 #include <iterator>
 #include <string>
 #include <algorithm>
+
+#define FIFO "./fifoChannel"
 
 bool compare_files(const std::string&, const std::string&);
 
@@ -68,8 +71,9 @@ int run_pipe_test(void)
     #if PRINT
     std::cout << "----------------------Starting run_pipe_test----------------------" << std::endl;
     #endif
-    std::thread th_rx(run_pipe_rx);
     std::thread th_tx(run_pipe_tx);
+    usleep(1000000);  
+    std::thread th_rx(run_pipe_rx);
 
     //wait for both threads to finish
     th_rx.join();
@@ -141,6 +145,7 @@ TEST(IpcTest, Shm)
     EXPECT_TRUE(files_equal);
 }
 
+/* from https://stackoverflow.com/questions/6163611/compare-two-files */
 bool compare_files(const std::string& p1, const std::string& p2)
 {
     std::ifstream f1(p1, std::ifstream::binary|std::ifstream::ate);

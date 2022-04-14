@@ -1,5 +1,7 @@
 #include "IPC.h"
 
+#include <iostream>
+
 /*
     Concrete Products provide various implementations
     of the Product interface
@@ -14,7 +16,6 @@ std::fstream CreatorIPC::openWriteFile(const char *path) const {
     if (!file.is_open()) {
         // the file hasn't been opened; error
         throw std::runtime_error("Write file couldn't be opened");
-
     }
 
     #if PRINT
