@@ -5,6 +5,7 @@
 #include <memory>   /* unique_ptr */
 
 #define BUFFERSIZE  1024 
+#define BUFFERSIZE_QUEUE 10
 
 /*
     The Product interface declares the operations that all concrete 
@@ -40,12 +41,16 @@ class PipeRx: public ReceiverIPC {
 };
 
 class QueueRx: public ReceiverIPC {
+    std::fstream *writeFile;
+    int qid;
+
     public:
+        QueueRx(std::fstream *file_in):writeFile{file_in}{}
         void receive() override;
+        ~QueueRx();
     private:
-        void setupQueueRx() const;
-        void fileSizeRx() const;
-        void queueRx() const;
+        void setupQueueRx();
+        void queueRx();
 };
 
 class ShmRx: public ReceiverIPC {
@@ -71,12 +76,16 @@ class PipeTx: public SenderIPC {
 };
 
 class QueueTx: public SenderIPC {
+    std::fstream *readFile;
+    int qid;
+
     public:
+        QueueTx(std::fstream *file_in):readFile{file_in}{}
         void send() override;
+        ~QueueTx();
     private:
-        void setupQueueTx() const;
-        void fileSizeTx() const;
-        void queueTx() const;
+        void setupQueueTx();
+        void queueTx();
 };
 
 class ShmTx: public SenderIPC {
@@ -129,8 +138,8 @@ class CreatorPipeRx: public CreatorIPC {
 
 class CreatorQueueRx: public CreatorIPC {
     public:
-        std::unique_ptr<ReceiverIPC> createIpcRx() const override {
-            return std::make_unique<QueueRx>();
+        std::unique_ptr<ReceiverIPC> createIpcRx(std::fstream *file_in) const override {
+            return std::make_unique<QueueRx>(file_in);
         }
 };
 
@@ -150,8 +159,8 @@ class CreatorPipeTx: public CreatorIPC {
 
 class CreatorQueueTx: public CreatorIPC {
     public:
-        std::unique_ptr<SenderIPC> createIpcTx() const override {
-            return std::make_unique<QueueTx>();
+        std::unique_ptr<SenderIPC> createIpcTx(std::fstream *file_in) const override {
+            return std::make_unique<QueueTx>(file_in);
         }
 };
 
