@@ -35,23 +35,29 @@ void QueueTx::setupQueueTx(void) {
 void QueueTx::queueTx(void) {
     // char readBuf[BUFFERSIZE_QUEUE];
     int readBytes = 0;
-    long n = 1;  
+    long n = 1; 
+    int status = 0; 
 
     while(1) {
         /* reading from readFile */
         readBytes = this->readFile->read(readBuf, BUFFERSIZE).gcount();
+        if ( (this->readFile->rdstate() & std::ifstream::badbit) != 0 ) {
+            throw std::runtime_error("istream::read error");
+        }
 
         /* if EOF reached, send last part and break loop */
         if (this->readFile->eof()) {
             /* build the message */
-            readBuf[readBytes] = '\0';
             queuedMessage msg;
             msg.index = n;
             msg.endIndex = n;
             msg.sizeMessage = readBytes;
             strcpy(msg.payload, readBuf);
             /* send the message */
-            msgsnd(qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
+            status = msgsnd(qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
+            if (status < 0) {
+                throw std::runtime_error(strerror(errno));
+            }
             #if PRINT
             std::cout << "---------" << std::endl;
             std::cout << "index: " << n << std::endl;
@@ -69,7 +75,10 @@ void QueueTx::queueTx(void) {
         msg.sizeMessage = BUFFERSIZE;
         strcpy(msg.payload, readBuf);
         /* send the message */
-        msgsnd(this->qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
+        status = msgsnd(this->qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
+        if (status < 0) {
+            throw std::runtime_error(strerror(errno));
+        }
         #if PRINT
         std::cout << "---------" << std::endl;
         std::cout << "index: " << n << std::endl;

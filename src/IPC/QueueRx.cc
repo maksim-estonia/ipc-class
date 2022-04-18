@@ -52,6 +52,9 @@ void QueueRx::queueRx(void) {
         std::cout << "---------" << std::endl;
         #endif
         this->writeFile->write(writeBuf, msg.sizeMessage);
+        if ( (this->writeFile->rdstate() & std::ofstream::badbit) != 0 ) {
+            throw std::runtime_error("ostream::write error");
+        }
 
         /* break loop if file fully received */
         if (n == msg.endIndex) {
