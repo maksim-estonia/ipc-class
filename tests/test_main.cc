@@ -85,6 +85,52 @@ int run_pipe_test(void)
     return 0;
 }
 
+void run_queue_rx(void)
+{
+    char path[] = {"data/queue_output.txt"};
+    std::fstream file;
+
+    try {
+        auto queue_rx = std::make_unique<CreatorPipeRx>();
+        file = queue_rx->openWriteFile(path);
+
+        std::unique_ptr<ReceiverIPC> queue_file_rx = std::move(queue_rx->createIpcRx(&file));
+        queue_file_rx->receive();
+    } catch (const char* msg) {
+        std::cerr << msg << std::endl;
+    }
+    
+}
+
+void run_queue_tx(void) 
+{
+    char path[] = {"data/queue_input.txt"};
+    std::fstream file;
+
+    try {
+        auto queue_tx = std::make_unique<CreatorPipeTx>();
+        file = queue_tx->openReadFile(path);
+
+        std::unique_ptr<SenderIPC> queue_file_tx = std::move(queue_tx->createIpcTx(&file));
+        queue_file_tx->send();
+    } catch (const char* msg) {
+        std::cerr << msg << std::endl;
+    }
+}
+
+int run_queue_test(void)
+{
+    std::thread th_tx(run_queue_tx);
+    usleep(1000000);
+    std::thread th_rx(run_queue_rx);
+
+    //wait for both threads to finish;
+    th_rx.join();
+    th_tx.join();
+
+    return 0;
+}
+
 TEST(IpcTest, Pipe)
 {
     std::string input_path{"data/pipe_input.txt"};
@@ -116,7 +162,7 @@ TEST(IpcTest, Queue)
     file_clear.close();
 
     // run queue file transfer
-    //run_queue_test();
+    run_queue_test();
 
     // compare input.txt and output.txt
     bool files_equal = false;
