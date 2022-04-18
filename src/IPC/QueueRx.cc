@@ -33,7 +33,7 @@ void QueueRx::setupQueueRx(void) {
 }
 
 void QueueRx::queueRx(void) {
-    int n = 1;
+    long n = 1;
     char writeBuf[BUFFERSIZE_QUEUE];
 
     while (1) {
@@ -45,15 +45,15 @@ void QueueRx::queueRx(void) {
 
         strcpy(writeBuf, msg.payload);
         std::cout << "---------" << std::endl;
-        std::cout << "index: " << msg.index << std::endl;
+        std::cout << "index: " << n << std::endl;
         std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
-        std::cout << writeBuf << std::endl;
+        std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
         std::cout << "endIndex: " << msg.endIndex << std::endl;
         std::cout << "---------" << std::endl;
         this->writeFile->write(writeBuf, msg.sizeMessage);
 
         /* break loop if file fully received */
-        if (msg.index == msg.endIndex) {
+        if (n == msg.endIndex) {
             std::cout << "File received fully" << std::endl;
             break;
         }

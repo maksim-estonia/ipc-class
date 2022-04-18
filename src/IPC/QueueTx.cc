@@ -35,7 +35,7 @@ void QueueTx::setupQueueTx(void) {
 void QueueTx::queueTx(void) {
     char readBuf[BUFFERSIZE_QUEUE];
     int readBytes = 0;
-    int n = 1;  
+    long n = 1;  
 
     while(1) {
         /* reading from readFile */
@@ -46,32 +46,32 @@ void QueueTx::queueTx(void) {
             /* build the message */
             readBuf[readBytes] = '\0';
             queuedMessage msg;
-            msg.index = (long) n;
-            msg.endIndex = (long) n;
+            msg.index = n;
+            msg.endIndex = n;
             msg.sizeMessage = readBytes;
             strcpy(msg.payload, readBuf);
             /* send the message */
             msgsnd(qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
             std::cout << "---------" << std::endl;
-            std::cout << "index: " << (int) msg.index << std::endl;
+            std::cout << "index: " << n << std::endl;
             std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
-            std::cout << msg.payload << std::endl;
+            std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
             std::cout << "---------" << std::endl;
             break;
         }
 
         /* build the message */
         queuedMessage msg;
-        msg.index = (long) n;
-        msg.endIndex = (long) (n+1);
+        msg.index = n;
+        msg.endIndex = (n+1);
         msg.sizeMessage = BUFFERSIZE_QUEUE;
         strcpy(msg.payload, readBuf);
         /* send the message */
         msgsnd(this->qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
         std::cout << "---------" << std::endl;
-        std::cout << "index: " << (int) msg.index << std::endl;
+        std::cout << "index: " << n << std::endl;
         std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
-        std::cout << msg.payload << std::endl;
+        std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
         std::cout << "---------" << std::endl;
 
         n +=1;

@@ -1,5 +1,5 @@
 #define ProjectId 123
-#define PathName "input.txt"
+#define PathName "send_main"
 
 typedef struct {
     long index;                 
