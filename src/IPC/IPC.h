@@ -5,7 +5,7 @@
 #include <memory>   /* unique_ptr */
 
 #define BUFFERSIZE  1024 
-#define BUFFERSIZE_QUEUE 10
+#define BUFFERSIZE_QUEUE (1024)
 
 /*
     The Product interface declares the operations that all concrete 

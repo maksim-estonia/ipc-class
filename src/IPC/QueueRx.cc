@@ -8,10 +8,14 @@
 #include <sys/msg.h>    /* msgget() */
 #include <string.h>     /* strerror() */
 
+char writeBuf[BUFFERSIZE_QUEUE];
+queuedMessage msg;
+
 void QueueRx::receive(void) {
     this->setupQueueRx();
 
     this->queueRx();
+    std::cout << "after smashing" << std::endl;
 }
 
 void QueueRx::setupQueueRx(void) {
@@ -34,10 +38,8 @@ void QueueRx::setupQueueRx(void) {
 
 void QueueRx::queueRx(void) {
     long n = 1;
-    char writeBuf[BUFFERSIZE_QUEUE];
 
     while (1) {
-        queuedMessage msg;
 
         if (msgrcv(this->qid, &msg, sizeof(msg), n, MSG_NOERROR | IPC_NOWAIT) < 0) {
             throw std::runtime_error(strerror(errno));
@@ -54,6 +56,7 @@ void QueueRx::queueRx(void) {
 
         /* break loop if file fully received */
         if (n == msg.endIndex) {
+            std::cout << "before smashing" << std::endl;
             std::cout << "File received fully" << std::endl;
             break;
         }

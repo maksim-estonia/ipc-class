@@ -8,10 +8,16 @@
 #include <sys/msg.h>    /* msgget() */
 #include <string.h>     /* strerror() */
 
+char readBuf[BUFFERSIZE_QUEUE];
+
 void QueueTx::send(void) {
     this->setupQueueTx();
 
+    std::cout << "before smashing" << std::endl;
+
     this->queueTx();
+
+    std::cout << "after smashing" << std::endl;
 }
 
 void QueueTx::setupQueueTx(void) {
@@ -33,7 +39,7 @@ void QueueTx::setupQueueTx(void) {
 }
 
 void QueueTx::queueTx(void) {
-    char readBuf[BUFFERSIZE_QUEUE];
+    // char readBuf[BUFFERSIZE_QUEUE];
     int readBytes = 0;
     long n = 1;  
 
@@ -57,6 +63,7 @@ void QueueTx::queueTx(void) {
             std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
             std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
             std::cout << "---------" << std::endl;
+            std::cout << "before smashing" << std::endl;
             break;
         }
 
