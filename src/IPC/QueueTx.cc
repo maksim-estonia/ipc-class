@@ -52,11 +52,13 @@ void QueueTx::queueTx(void) {
             strcpy(msg.payload, readBuf);
             /* send the message */
             msgsnd(qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
+            #if PRINT
             std::cout << "---------" << std::endl;
             std::cout << "index: " << n << std::endl;
             std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
             std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
             std::cout << "---------" << std::endl;
+            #endif
             break;
         }
 
@@ -68,11 +70,13 @@ void QueueTx::queueTx(void) {
         strcpy(msg.payload, readBuf);
         /* send the message */
         msgsnd(this->qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
+        #if PRINT
         std::cout << "---------" << std::endl;
         std::cout << "index: " << n << std::endl;
         std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
         std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
         std::cout << "---------" << std::endl;
+        #endif
 
         n +=1;
     }

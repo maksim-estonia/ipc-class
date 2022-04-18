@@ -23,13 +23,11 @@ void QueueRx::setupQueueRx(void) {
     /* setup message queue */
     key = ftok(PathName, ProjectId);    /* key to identify the queue */
     if (key<0) {
-        std::cout << "ftok error" << std::endl;
         throw std::runtime_error(strerror(errno));
     }
 
     this->qid = msgget(key, S_IRWXU | S_IRWXG | IPC_CREAT);
     if (this->qid < 0) {
-        std::cout << "msgget" << std::endl;
         throw std::runtime_error(strerror(errno));
     }
 
@@ -45,12 +43,14 @@ void QueueRx::queueRx(void) {
         }
 
         strcpy(writeBuf, msg.payload);
+        #if PRINT
         std::cout << "---------" << std::endl;
         std::cout << "index: " << n << std::endl;
         std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
         std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
         std::cout << "endIndex: " << msg.endIndex << std::endl;
         std::cout << "---------" << std::endl;
+        #endif
         this->writeFile->write(writeBuf, msg.sizeMessage);
 
         /* break loop if file fully received */
