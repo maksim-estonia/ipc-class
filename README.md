@@ -81,6 +81,18 @@ There is also an option to build with `PRINT` (prints out more information)
   ./receive_main --pipe --file output.txt
   ```
 
+- queue
+  - start send side
+
+  ```
+  ./send_main --queue --file input.txt
+  ```
+
+  - start receive side
+
+  ```
+  ./receive_main --queue --file output.txt
+  ```
 
 
 ## Testing

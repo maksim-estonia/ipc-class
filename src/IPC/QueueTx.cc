@@ -43,6 +43,8 @@ void QueueTx::queueTx(void) {
 
         /* if EOF reached, send last part and break loop */
         if (this->readFile->eof()) {
+            /* build the message */
+            readBuf[readBytes] = '\0';
             queuedMessage msg;
             msg.index = (long) n;
             msg.endIndex = (long) n;
