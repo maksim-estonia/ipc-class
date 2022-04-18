@@ -33,14 +33,28 @@ int main(int argc, char* argv[])
 
             } catch (const char* msg) {
                 std::cerr << msg << std::endl;
-                return -1;
+                return EXIT_FAILURE;
             }
 
             break;
         }
-        case Transport_type::QUEUE:
-            std::cerr << "ERROR: not implemented" << std::endl;
-            return -1;
+        case Transport_type::QUEUE: {
+            std::fstream file;
+            std::cout << "Launch Queue Rx" << std::endl;
+
+            try {
+                auto queue_rx = std::make_unique<CreatorQueueRx>();
+                file = queue_rx->openWriteFile(arg.write_path);
+
+                std::unique_ptr<ReceiverIPC> queue_file_rx = std::move(queue_rx->createIpcRx(&file));
+                queue_file_rx->receive();
+            } catch (const char* msg) {
+                std::cerr << msg << std::endl;
+                return EXIT_FAILURE;
+            }
+
+            break;
+        }
         case Transport_type::SHM:
             std::cerr << "ERROR: not implemented" << std::endl;
             return -1;
@@ -49,6 +63,6 @@ int main(int argc, char* argv[])
             return -1;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 
 }
