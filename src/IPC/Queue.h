@@ -5,5 +5,5 @@ typedef struct {
     long index;                 
     long endIndex;
     int sizeMessage;
-    char payload[BUFFERSIZE_QUEUE];   /* bytes in the message */
+    char payload[BUFFERSIZE];   /* bytes in the message */
 } queuedMessage;

@@ -8,14 +8,13 @@
 #include <sys/msg.h>    /* msgget() */
 #include <string.h>     /* strerror() */
 
-char writeBuf[BUFFERSIZE_QUEUE];
+char writeBuf[BUFFERSIZE];
 queuedMessage msg;
 
 void QueueRx::receive(void) {
     this->setupQueueRx();
 
     this->queueRx();
-    std::cout << "after smashing" << std::endl;
 }
 
 void QueueRx::setupQueueRx(void) {
@@ -56,7 +55,6 @@ void QueueRx::queueRx(void) {
 
         /* break loop if file fully received */
         if (n == msg.endIndex) {
-            std::cout << "before smashing" << std::endl;
             std::cout << "File received fully" << std::endl;
             break;
         }

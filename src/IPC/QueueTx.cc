@@ -8,16 +8,12 @@
 #include <sys/msg.h>    /* msgget() */
 #include <string.h>     /* strerror() */
 
-char readBuf[BUFFERSIZE_QUEUE];
+char readBuf[BUFFERSIZE];
 
 void QueueTx::send(void) {
     this->setupQueueTx();
 
-    std::cout << "before smashing" << std::endl;
-
     this->queueTx();
-
-    std::cout << "after smashing" << std::endl;
 }
 
 void QueueTx::setupQueueTx(void) {
@@ -26,14 +22,12 @@ void QueueTx::setupQueueTx(void) {
     /* ftok - convert a pathname and a project identifier to a System V IPC key */
     key = ftok(PathName, ProjectId);
     if (key < 0) {
-        std::cout << "error ftok" << std::endl;
         throw std::runtime_error(strerror(errno));
     }
 
     /* msgget - get a System V message queue identifier */
     this->qid = msgget(key, S_IRWXU | S_IRWXG | IPC_CREAT);
     if (qid < 0) {
-        std::cout << "error msgget" << std::endl;
         throw std::runtime_error(strerror(errno));
     }
 }
@@ -45,7 +39,7 @@ void QueueTx::queueTx(void) {
 
     while(1) {
         /* reading from readFile */
-        readBytes = this->readFile->read(readBuf, BUFFERSIZE_QUEUE).gcount();
+        readBytes = this->readFile->read(readBuf, BUFFERSIZE).gcount();
 
         /* if EOF reached, send last part and break loop */
         if (this->readFile->eof()) {
@@ -63,7 +57,6 @@ void QueueTx::queueTx(void) {
             std::cout << "sizeMessage: " << msg.sizeMessage << std::endl;
             std::cout << std::string(msg.payload, msg.sizeMessage) << std::endl;
             std::cout << "---------" << std::endl;
-            std::cout << "before smashing" << std::endl;
             break;
         }
 
@@ -71,7 +64,7 @@ void QueueTx::queueTx(void) {
         queuedMessage msg;
         msg.index = n;
         msg.endIndex = (n+1);
-        msg.sizeMessage = BUFFERSIZE_QUEUE;
+        msg.sizeMessage = BUFFERSIZE;
         strcpy(msg.payload, readBuf);
         /* send the message */
         msgsnd(this->qid, &msg, sizeof(msg), IPC_NOWAIT); /* don't block */
